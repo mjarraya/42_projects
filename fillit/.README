@@ -1,0 +1,3 @@
+affichage du retour de la fonction shift
+
+certains retours comportent des formes invalides alors que les fonctions ft_validform et ft_validblock repondent correctement
