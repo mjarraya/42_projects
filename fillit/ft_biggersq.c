@@ -1,17 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_biggersq.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/12/20 21:05:16 by mjarraya          #+#    #+#             */
-/*   Updated: 2015/12/21 13:29:14 by mjarraya         ###   ########.fr       */
+/*   Created: 2015/12/23 10:27:31 by mjarraya          #+#    #+#             */
+/*   Updated: 2015/12/23 10:27:33 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "fillit.h"
+#include "libft.h"
+
+char	*ft_appendsq(char *split, int size)
+{
+	char	*str;
+	int		i;
+	int		j;
+
+	if (!(str = (char *)malloc(ft_strlen(split) + 2 * size)))
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (split[j] != '\n')
+	{
+		if ((i + 1) % size == 0)
+		{
+			str[i] = ',';
+			i++;
+			str[i] = split[j];
+		}
+		else
+			str[i] = split[j];
+		i++;
+		j++;
+	}
+	str[i] = ',';
+	j = 0;
+	while (j < size)
+	{
+		str[i + 1] = ';';
+		i++;
+		j++;
+	}
+	str[i + 1] = '\0';
+	return (str);
+}
+
+/*
+#include <stdio.h>
 
 int		main(int argc, char **argv)
 {
@@ -32,7 +70,8 @@ int		main(int argc, char **argv)
 	}
 	if (ft_validmap(split) == 0)
 		ft_putstr("error\n");
-	printf("%d\n", ft_counttetri(split));
-	printf("%d\n", ft_strlen(split));
+	printf("%s\n", split);
+	printf("%s\n", ft_appendsq(split, 6));
 	return (0);
 }
+*/

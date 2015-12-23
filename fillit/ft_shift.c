@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/15 10:50:02 by mjarraya          #+#    #+#             */
-/*   Updated: 2015/12/20 18:20:10 by mjarraya         ###   ########.fr       */
+/*   Updated: 2015/12/21 13:33:43 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,11 @@ char	*ft_shift_right(char *s)
 	return (s);
 }
 
-
-
 char	*ft_shift(char *s)
 {
 	while (s[0] != '#')
 		ft_shift_left(s);
-	while (ft_validform(s) != 1)
+	while (ft_validform(s, 0, 0) != 1)
 		ft_shift_right(s);
 	return (s);
 }

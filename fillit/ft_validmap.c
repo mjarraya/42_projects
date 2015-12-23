@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/12/09 16:56:10 by mjarraya          #+#    #+#             */
-/*   Updated: 2015/12/20 18:44:04 by mjarraya         ###   ########.fr       */
+/*   Updated: 2015/12/21 13:33:31 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int		ft_validpattern(char *split)
 		j = 0;
 		while (split[i] != '\n' && split[i] != '\0')
 		{
-
 			if (split[i] == '.')
 				point++;
 			else if (split[i] == '#')
@@ -43,12 +42,10 @@ int		ft_validpattern(char *split)
 	return (1);
 }
 
-int		ft_validform(char *split)
+int		ft_validform(char *split, int i, int j)
 {
-	int	i;
-	int	j;
 	int	touch;
-	
+
 	i = 0;
 	while (split[i] != '\0')
 	{
@@ -76,9 +73,13 @@ int		ft_validform(char *split)
 
 int		ft_validmap(char *split)
 {
+	if (ft_charcount(split, '#') > 104)
+		return (0); 
+	if (ft_strlen(split) < 16)
+		return (0);
 	if (!split)
 		return (0);
-	if ((ft_validpattern(split) == 0) && (ft_validform(split) == 0))
+	if ((ft_validpattern(split) == 0) || (ft_validform(split, 0, 0) == 0))
 		return (0);
 	return (1);
 }
