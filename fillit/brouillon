@@ -1,0 +1,67 @@
+on a 3 formes
+
+A)		B)		C)
+.#..	#...	##..
+###.	#...	##..
+....	#...	....
+....	#...	....
+
+A = .#..###.........
+B = #...#...#...#...
+C = ##..##..........
+
+pour les faire rentrer dans un carre de 4x4 il faudrait que l'on puisse
+placer tous les '#' sur la meme ligne en gardant l'integrite des formes
+
+ce qui donne:
+ABC = .A.BAAABCC.BCC.B
+ou, en 4x4:
+.A.B
+AAAB
+CC.B
+CC.B
+
+la ca fonctionne, nickel.
+
+maintenant on va dire qu'on rajoute aux 3 formes qu'on avait une nouvelle:
+
+D)
+.#..
+.#..
+##..
+....
+
+on essaye de la rentrer sur la ligne qu'on a obtenue tout a l'heure
+.A.BAAABCC.BCC.B
+.D...D..DD......
+on decale >
+..D...D..DD.....		= ..#.
+						  ..#.	
+						  .##.	
+						  ....
+puis
+...D...D..DD....		= ...#
+						  ...#
+						  ..##
+						  ....
+etc ca ne rentrera pas sur la meme ligne qu'ABC
+etant donne que meme en changeant l'ordre des lettres il ny aura pas assez de place on va chercher a essayer
+de rentrer les formes dans un nouveau tableau + grand
+donc on rajoute une colonne puis une ligne, pour ca je rajoute un '.' apres chaque groupe de caracteres
+et je rajoute autant de '.' qu'il ya de lignes a la fin
+ce qui donne, applique a notre ligne ABC
+* = nouveau point
+.A.B*AAAB*CC.B*CC.B****** ou	.A.B*
+								AAAB*
+								CC.B*
+								CC.B*
+								*****
+avec ca on pourra placer le D
+
+.A.B*AAAB*CC.BDCC.BD***DD ou	.A.B*
+								AAAB*
+								CC.BD
+								CC.BD
+								***DD
+
+le plus dur ca va etre l'algo qui essaye toutes les combinaisons
