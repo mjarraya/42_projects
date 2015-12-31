@@ -53,3 +53,4 @@ char	*ft_shift(char *s)
 		ft_shift_right(s);
 	return (s);
 }
+

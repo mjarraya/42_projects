@@ -82,3 +82,57 @@ int		ft_counttetri(char *s)
 	nb = (ft_charcount(s, '#') / 4);
 	return (nb);
 }
+
+
+
+t_block		*ft_letters(char **s)
+{
+	int		i;
+	char	c;
+	int		j;
+	t_block	*piece;
+	t_block	*begin;
+
+	piece = malloc(sizeof(t_block));
+	begin = piece;
+	piece->idx = 0;
+	i = 0;
+	c = 'A';
+	while (s[i])
+	{
+		j = 0;
+		piece->tetri = malloc(sizeof(char) * 17);
+		while (s[i][j] != '\0')
+		{
+			if (s[i][j] == '#')
+				piece->tetri[j] = c;
+			else
+				piece->tetri[j] = '.';
+			j++;
+		}
+		piece->tetri[j] = '\0';
+		piece->next = malloc(sizeof(t_block));
+		piece->idx += i;
+		printf("%s%d\n", piece->tetri, piece->idx);
+		i++;
+		c++;
+		piece = piece->next;
+	}
+	return (begin);
+}
+
+int		main(int argc, char **argv)
+{
+	char	**split;
+	int		i;
+
+	split = ft_strsplit(ft_split(ft_read(argv[1])), '\n');
+	i = 0;
+	while (split[i])
+	{
+		ft_shift(split[i]);
+		i++;
+	}
+	ft_letters(split);
+	return (0);
+}
