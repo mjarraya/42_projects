@@ -5,24 +5,26 @@
 #                                                     +:+ +:+         +:+      #
 #    By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2015/12/08 14:42:56 by mjarraya          #+#    #+#              #
-#    Updated: 2015/12/09 10:49:51 by mjarraya         ###   ########.fr        #
+#    Created: 2016/01/06 13:53:32 by mjarraya          #+#    #+#              #
+#    Updated: 2016/01/06 14:53:07 by mjarraya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fillit
 
-SRC = main.c ft_putstr.c ft_strsplit.c ft_readfillit.c
+SRC = main.c resolve.c utils.c check_file.c lists.c size.c tab.c
 
 OBJ = $(SRC:.c=.o)
 
 all: $(NAME)
 
 $(NAME):
-		gcc -c -Wall -Wextra -Werror -Iincludes $(SRC)
+	 	make -C libft/ 
+		gcc -Wall -Wextra -Werror -Iincludes libft/libft.a $(SRC) -o $(NAME)
 
 clean:
 		rm -f $(OBJ)
+		make -C libft/ fclean
 
 fclean: clean
 		rm -f $(NAME)
