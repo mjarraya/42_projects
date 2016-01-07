@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/02 14:55:04 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/06 13:53:50 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/07 21:01:06 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 # include <fcntl.h>
 # include <sys/types.h>
 # include <sys/stat.h>
-# include "libft.h"
+# include "libft/libft.h"
 
 # define BUF_SIZE 546
 
