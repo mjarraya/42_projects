@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/08 19:10:59 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/09 19:14:33 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,8 @@ static char	*ft_fill_line(char *buf, char *line)
 	tmp = line;
 	line = (char *)ft_memalloc(i + 1);
 	i = 0;
-	while (tmp[i])
-	{
-		line[i] = tmp[i];
-		i++;
-	}
+	ft_strcpy(line, tmp);
+	i = ft_strlen(tmp);
 	j = 0;
 	while (buf[j] != '\0' && buf[j] != '\n')
 	{	
@@ -50,44 +47,35 @@ int		get_next_line(int const fd, char **line)
 {
 	int				ret;
 	static t_struct *gnl = NULL;
-	
+	if (fd < 0 || line == NULL)
+			return (-1);
 	if (!gnl)
-	{
+	{	
 		gnl = (t_struct *)ft_memalloc(sizeof(t_struct));
 		gnl->buf = (char *)ft_memalloc(BUFF_SIZE + 1);
 		gnl->buf2 = NULL;
 	}
 	ret = 1;
 	*line = (char *)ft_memalloc(1);
-	while (ret && (!(gnl->buf2 = ft_strchr(gnl->buf, '\n'))))
+	while (gnl->buf2 || (ret = read(fd, gnl->buf, BUFF_SIZE)))
 	{
-		ret = read(fd, gnl->buf, BUFF_SIZE);
-		if (ft_strchr(gnl->buf, '\n') == NULL)
-			*line = ft_fill_line(gnl->buf, *line);	
-		else
+		if (gnl->buf2)	
 		{
-			*line = ft_fill_line(gnl->buf, *line);
-			return (1);
+			*line = ft_fill_line(gnl->buf2 + 1, *line);
+			if ((gnl->buf2 = ft_strchr(gnl->buf2 + 1, '\n')) == NULL)
+			{
+				if ((ret = read(fd, gnl->buf, BUFF_SIZE)) == 0)
+					return (0);
+			}
+			else if (gnl->buf2[1] == '\0')
+				return (0);
+			else
+				return (1);
 		}
+		*line = ft_fill_line(gnl->buf, *line);
+		if ((gnl->buf2 = ft_strchr(gnl->buf, '\n')) != NULL)
+			return (1);
 	}
 	return (0);
 }
 
-#include <fcntl.h>
-
-int		main(int argc, char **argv)
-{
-	int		fd;
-	char	*line;
-	int		i;
-
-	i = 0;
-	fd = open(argv[1], O_RDONLY);	
-	while (get_next_line(fd, &line) == 1)
-	{
-		printf("%s\n", line);
-		free(line);
-	}
-	close(fd);
-	return (0);
-}

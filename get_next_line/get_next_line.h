@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:50 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/08 19:12:04 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/09 19:00:21 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,10 @@
 # include <unistd.h>
 # include <stdio.h>
 
-# define BUFF_SIZE 1 
-# define DEBUG printf("%d - %s - %s\n", __LINE__, __FILE__, __func__);
+# define BUFF_SIZE 49
+# define DEBUG ft_putnbr(__LINE__); ft_putchar(' '); ft_putstr(__FILE__); ft_putchar(' '); ft_putendl(__func__);
+# define DEBUG_VAR(x) ft_putstr(x);
+
 typedef	struct	s_struct
 {
 	char		*buf;

@@ -1,32 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strrev.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2015/11/29 21:32:22 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/09 14:19:41 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/01/09 13:33:50 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/01/09 18:57:03 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 
-char	*ft_strrev(char *str)
+#include "get_next_line.h"
+#include "libft/libft.h"
+#include <sys/types.h>
+#include <sys/uio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+
+int     main(int argc, char **argv)
 {
-	char	tmp;
+	int     fd;
+	char    *line;
 	int		i;
-	int		len;
 
 	i = 0;
-	len = ft_strlen(str);
-	while (i > 0)
+	fd = open(argv[1], O_RDONLY);
+	if (fd == -1)
 	{
-		tmp = str[i];
-		str[i] = str[len - 1];
-		str[len - 1] = tmp;
-		i++;
-		len--;
+		ft_putstr("open() error");
+		return (1);
 	}
-	return (str);
+	while (get_next_line(fd, &line) > 0)
+	{
+		ft_putendl(line);
+		free (line);
+	}
+	return (1);
 }
