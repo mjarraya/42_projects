@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/09 19:14:33 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/10 18:22:56 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,13 @@ static char	*ft_fill_line(char *buf, char *line)
 	return (line);
 }
 
+
+
 int		get_next_line(int const fd, char **line)
 {
 	int				ret;
 	static t_struct *gnl = NULL;
+
 	if (fd < 0 || line == NULL)
 			return (-1);
 	if (!gnl)
@@ -55,7 +58,6 @@ int		get_next_line(int const fd, char **line)
 		gnl->buf = (char *)ft_memalloc(BUFF_SIZE + 1);
 		gnl->buf2 = NULL;
 	}
-	ret = 1;
 	*line = (char *)ft_memalloc(1);
 	while (gnl->buf2 || (ret = read(fd, gnl->buf, BUFF_SIZE)))
 	{
@@ -66,12 +68,13 @@ int		get_next_line(int const fd, char **line)
 			{
 				if ((ret = read(fd, gnl->buf, BUFF_SIZE)) == 0)
 					return (0);
-			}
-			else if (gnl->buf2[1] == '\0')
-				return (0);
+			}	
 			else
 				return (1);
 		}
+		if (ret == -1)
+			return (-1);
+		gnl->buf[ret] = '\0';
 		*line = ft_fill_line(gnl->buf, *line);
 		if ((gnl->buf2 = ft_strchr(gnl->buf, '\n')) != NULL)
 			return (1);
