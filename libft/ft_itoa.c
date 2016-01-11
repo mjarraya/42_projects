@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/28 18:56:09 by mjarraya          #+#    #+#             */
-/*   Updated: 2015/12/01 17:25:05 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/11 15:30:58 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ char			*ft_itoa(int n)
 	char			*s;
 
 	len = 0;
-	s = malloc(sizeof(char) * (11));
+	if (!(s = malloc(sizeof(char) * (11))))
+		return (NULL);
 	if (n == 0 || n == -2147483648)
 		return (ft_checkvalue(n));
 	if (n < 0)

@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/29 21:32:22 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/06 19:08:56 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/11 15:15:02 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_strrev(char *str)
 
 	i = 0;
 	len = ft_strlen(str);
-	while (j > 0)
+	while (i > 0)
 	{
 		tmp = str[i];
 		str[i] = str[len - 1];
