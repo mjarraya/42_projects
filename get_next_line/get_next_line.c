@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/10 19:55:56 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/11 10:52:11 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*ft_fill_line(char *buf, char *line)
 	return (line);
 }
 
-void		init_buf(t_struct **gnl, char **line)
+static void	init_buf(t_struct **gnl, char **line)
 {
 	*line = (char *)ft_memalloc(1);
 	if (!*gnl)
@@ -52,19 +52,17 @@ void		init_buf(t_struct **gnl, char **line)
 	}
 }
 
-int			get_next_line(int const fd, char **line)
+static int	ft_get_next_line(int const fd, char **line)
 {
 	int				ret;
 	static t_struct *gnl = NULL;
 
-	if (fd < 0 || line == NULL)
-		return (-1);
 	init_buf(&gnl, line);
 	while (gnl->buf2 || (ret = read(fd, gnl->buf, BUFF_SIZE)))
 	{
 		if (gnl->buf2)
 		{
-			*line = ft_fill_line(gnl->buf2 + 1, *line);	
+			*line = ft_fill_line(gnl->buf2 + 1, *line);
 			if ((gnl->buf2 = ft_strchr(gnl->buf2 + 1, '\n')) == NULL)
 			{
 				if ((ret = read(fd, gnl->buf, BUFF_SIZE)) == 0)
@@ -81,4 +79,11 @@ int			get_next_line(int const fd, char **line)
 			return (1);
 	}
 	return (0);
+}
+
+int			get_next_line(int const fd, char **line)
+{
+	if (fd < 0 || line == NULL)
+		return (-1);
+	return (ft_get_next_line(fd, line));
 }

@@ -6,17 +6,13 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:50 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/10 19:26:04 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/10 19:30:12 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 # include <stdlib.h>
-# include <sys/types.h>
-# include <sys/uio.h>
-# include <unistd.h>
-# include <stdio.h>
 
 # define BUFF_SIZE 30
 
