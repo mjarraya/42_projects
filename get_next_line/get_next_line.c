@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/06 15:02:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/11 10:52:11 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/01/18 12:38:52 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ static int	ft_get_next_line(int const fd, char **line)
 		if ((gnl->buf2 = ft_strchr(gnl->buf, '\n')) != NULL)
 			return (1);
 	}
-	return (0);
+	return ((ret || **line) ? 1 : 0);
 }
 
 int			get_next_line(int const fd, char **line)
