@@ -6,7 +6,7 @@
 #    By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/02/03 20:29:24 by mjarraya          #+#    #+#              #
-#    Updated: 2016/02/03 20:32:11 by mjarraya         ###   ########.fr        #
+#    Updated: 2016/02/06 13:24:21 by mjarraya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ all: $(NAME)
 $(NAME):
 	gcc -Wall -Wextra -Iincludes -c $(SRC)
 	gcc -Wall -Wextra -Iincludes libft/libft.a $(OBJ) -o $(NAME)
-
+	rm -f $(OBJ)
 clean:
 	rm -f $(OBJ)
 

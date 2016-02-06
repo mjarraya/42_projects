@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 16:22:15 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/04 16:23:29 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/06 14:19:13 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_str_swap(char *s1, char *s2)
 	char	*tmp;
 	int		i1;
 	int		i2;
-	
+
 	i1 = ft_strlen(s1);
 	i2 = ft_strlen(s2);
 	if (i1 > i2)
@@ -27,4 +27,5 @@ void	ft_str_swap(char *s1, char *s2)
 	ft_strcpy(tmp, s1);
 	ft_strcpy(s1, s2);
 	ft_strcpy(s2, tmp);
+	free(tmp);
 }

@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/04 16:23:35 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/04 16:24:46 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/06 14:18:38 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,22 +15,21 @@
 char	**ft_sorted_tab(char **tab)
 {
 	int		i;
-	int		swap;
+	int		j;
+	int		len;
 
-	i = 0;
-	swap = 1;
-	while (swap)
+	len = ft_tablen(tab);
+	i = 1;
+	while (i < len)
 	{
-		swap = 0;
-		while (tab[i + 1])
+		j = 1;
+		while (j < len)
 		{
-			if (ft_strcmp(tab[i], tab[i + 1]) > 0)
-			{
-				ft_str_swap(tab[i], tab[i + 1]);
-				swap = 1;
-			}
-			i++;
+			if (ft_strcmp(tab[j - 1], tab[j]) > 0)
+				ft_str_swap(tab[j - 1], tab[j]);
+			j++;
 		}
+		i++;
 	}
 	return (tab);
 }

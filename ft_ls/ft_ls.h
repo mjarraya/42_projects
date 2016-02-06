@@ -6,14 +6,14 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 13:10:06 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/04 16:19:29 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/06 13:23:26 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include "libft/libft.h"
+# include "libft/includes/libft.h"
 # include <dirent.h>
 # include <stdio.h>
 # include <stdlib.h>
