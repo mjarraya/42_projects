@@ -1,5 +1,5 @@
 *.o
 *.a
 *.out
-/*/libft/
+
 .DS_Store
