@@ -6,14 +6,14 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/19 13:10:06 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/06 23:26:47 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/07 00:28:42 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_LS_H
 # define FT_LS_H
 
-# include "libft/includes/libft.h"
+# include "libft.h"
 # include <dirent.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -47,7 +47,7 @@ char	**ft_sorted_tab_ascii(char **tab);
 
 //LISTING
 int		ft_ls(char *str);
-char	**ft_dir_list(char *str);
+void	ft_dir_list(char *str);
 
 //ERROR
 void	ft_illegal_options(char c);

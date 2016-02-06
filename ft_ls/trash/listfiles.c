@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/29 11:28:24 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/01/29 12:48:15 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/07 00:39:58 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	ft_dir_list(char *str)
 	if ((mydir = opendir(str)) == NULL)
 	{
 		perror(str);
+		printf("bang\n");
 		return ;
 	}
 	while ((myfile = readdir(mydir)) != NULL)
