@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/17 21:43:49 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/17 21:51:46 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 06:54:34 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ typedef struct		s_files
 
 typedef struct		s_args
 {
-	t_files			*elem;
+	char			**elem;
 	int				cap_r;
 	int				l;
 	int				a;
@@ -54,5 +54,6 @@ int					read_directory(t_files *current_dir, t_args *args,
 	t_files **head);
 void	ft_illegal_options(char c);
 char	ft_is_option(char c);
+t_args	ft_parse(int argc, char **argv);
 
 #endif

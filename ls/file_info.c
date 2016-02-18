@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/17 22:31:52 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/17 22:48:35 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 08:16:14 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,15 @@ char		*file_perms(struct stat buf)
 	return (perm);
 }
 
-t_files		*ft_fill_s_files(char *filename)
+t_files		*ft_fill_s_files(char **filename)
 {
 	t_files		*file;
 	struct stat	buf;
+	int		i = 0;
 
-	if (stat(filename, &buf) == -1)
+	while (filename[i])
+	{
+	if (stat(filename[i], &buf) == -1)
 		return (NULL);
 	file = (t_files *)ft_memalloc(sizeof(t_files));
 	file->size = buf.st_size;
@@ -87,5 +90,7 @@ t_files		*ft_fill_s_files(char *filename)
 	file->device = buf.st_rdev;
 	file->name = ft_strdup(filename);
 	file->next = NULL;
+	}
 	return (file);
 }
+

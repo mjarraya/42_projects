@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/17 20:21:39 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 06:44:01 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 13:25:03 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	**ft_dir_cont(char *path)
 		cont = malloc(sizeof(char *) + 1);
 		cont[0] = ft_strdup(path);
 		cont[1] = NULL;
-		closedir(dir);
 		return (cont);
 	}
 	len = 0;
@@ -46,10 +45,29 @@ char	**ft_dir_cont(char *path)
 	closedir(dir);
 	return (cont);
 }
+/*
+void	get_stat(char *filename, char *dirname)
+{
+	struct stat	buf;
+	char		*path;
 
-int		main(int ac, char **argv)
+	path = ft_strjoin(dirname, "/");
+	path = ft_strjoin(path, filename);
+	if (stat(path, &buf) == -1)
+		perror(filename);
+	else
+
+}
+*/
+int		main(int argc, char **argv)
 {
 	char	**tab;
+	t_args	args;
+	int		i;
 
-	ft_puttab(ft_sorted_tab(ft_dir_cont(argv[1])));
+	i = 0;
+	args = ft_parse(argc, argv);
+	ft_sorted_tab(args.elem);
+	while (args.elem[i])
+		ft_puttab(ft_sorted_tab(ft_dir_cont(args.elem[i++])));
 }

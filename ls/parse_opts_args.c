@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 13:57:14 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/06 13:19:51 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 13:30:43 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ t_args	ft_parse(int argc, char **argv)
 	t_args	args;
 
 	args = init_args(argc);
+	ft_sorted_tab(args.elem);
 	ft_check_args(argv, &args, 0, 0);
 	return (args);
 }
