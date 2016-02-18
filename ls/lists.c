@@ -1,40 +1,38 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sorted_tab.c                                    :+:      :+:    :+:   */
+/*   lists.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/04 16:23:35 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 06:40:25 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/02/18 02:28:29 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/02/18 02:28:31 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ls.h"
 
-char	**ft_sorted_tab(char **tab)
+void	ft_t_files_push_back(t_files **begin_list, t_files *new)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*tmp;
+	t_files	*list;
 
-	len = ft_tablen(tab);
-	i = 1;
-	while (i < len)
+	if (!begin_list)
+		*begin_list = new;
+	else
 	{
-		j = 1;
-		while (j < len)
-		{
-			if (ft_strcmp(tab[j - 1], tab[j]) > 0)
-			{
-				tmp = tab[j - 1];
-				tab[j - 1] = tab[j];
-				tab[j] = tmp;
-			}
-			j++;
-		}
-		i++;
+		list = *begin_list;
+		while (list->next)
+			list = list->next;
+		list->next = new;
 	}
-	return (tab);
+}
+
+void	ft_t_filescat(t_files *list, t_files *listnext)
+{
+	t_files	*tmp;
+
+	tmp = list;
+	while (list->next)
+		list = list->next;
+	list->next = listnext;
 }

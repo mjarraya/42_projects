@@ -6,7 +6,7 @@
 #    By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2015/11/29 13:55:56 by mjarraya          #+#    #+#              #
-#    Updated: 2016/02/04 16:22:07 by mjarraya         ###   ########.fr        #
+#    Updated: 2016/02/18 06:40:44 by mjarraya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ SRC = ft_memset.c ft_bzero.c ft_memcpy.c ft_memccpy.c ft_memmove.c ft_memchr.c \
 	  ft_putstr_fd.c ft_putnbr_fd.c ft_putendl_fd.c \
 	  ft_lstnew.c ft_lstdelone.c ft_lstdel.c ft_lstiter.c ft_lstadd.c \
 	  ft_wordcount.c ft_charcount.c ft_strndup.c ft_isspace.c ft_swap.c \
-	  ft_strrev.c ft_strnlen.c ft_puttab.c get_next_line.c ft_str_swap.c \
+	  ft_strrev.c ft_strnlen.c ft_puttab.c get_next_line.c \ 
 	  ft_sorted_tab.c
 
 OBJ = $(SRC:.c=.o)

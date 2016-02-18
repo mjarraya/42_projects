@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2015/11/23 14:42:19 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/16 13:33:28 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 06:40:57 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void			ft_swap(int *a, int *b);
 char			*ft_strrev(char *str);
 t_list			ft_print_list(t_list *list);
 void			ft_puttab(char **tab);
-void			ft_str_swap(char *s1, char *s2);
 char			**ft_sorted_tab(char **tab);
 int				ft_tablen(char **tab);
 

@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_reverse.c                                  :+:      :+:    :+:   */
+/*   sorting.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/02 16:33:30 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 05:26:36 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/02/18 03:23:17 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/02/18 03:23:19 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include <stdlib.h>
+#include "ft_ls.h"
 
-void	ft_list_reverse(t_list **begin_list)
+void	ft_sort_ascii(t_files **begin_list)
 {
-	t_list	*prev;
-	t_list	*curr;
-	t_list	*next;
+	t_files	*curr;
+	t_files	*prev;
+	t_files	*tmp;
+}
+
+void	ft_sort_reverse(t_files **begin_list)
+{
+	t_files *prev;
+	t_files *curr;
+	t_files	*next;
 
 	prev = NULL;
 	curr = *begin_list;
@@ -29,4 +35,14 @@ void	ft_list_reverse(t_list **begin_list)
 		curr = next;
 	}
 	*begin_list = prev;
+}
+
+void	ft_sort_time(t_files *begin_list)
+{
+
+}
+
+void	ft_sort_size(t_files *begin_list)
+{
+
 }

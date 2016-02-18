@@ -1,40 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sorted_tab.c                                    :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/04 16:23:35 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 06:40:25 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/01/27 16:18:32 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/02/03 18:43:47 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "ft_ls.h"
 
-char	**ft_sorted_tab(char **tab)
+void	ft_illegal_options(char c)
 {
-	int		i;
-	int		j;
-	int		len;
-	char	*tmp;
+	ft_putstr_fd("ls: illegal option -- ", 2);
+	ft_putchar_fd(c, 2);
+	ft_putendl_fd("\nusage: ls [-Ralrt] [file ...]", 2);
+}
 
-	len = ft_tablen(tab);
-	i = 1;
-	while (i < len)
-	{
-		j = 1;
-		while (j < len)
-		{
-			if (ft_strcmp(tab[j - 1], tab[j]) > 0)
-			{
-				tmp = tab[j - 1];
-				tab[j - 1] = tab[j];
-				tab[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (tab);
+char	ft_is_option(char c)
+{
+	if (c == 'R' || c == 'l' || c == 'a' || c == 'r' || c == 't')
+		return (1);
+	return (0);
 }
