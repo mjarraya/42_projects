@@ -90,7 +90,7 @@ char	*ft_read(char *s)
 	char	*buf;
 
 	fd = open(s, O_RDONLY);
-	buf = malloc(sizeof(char *) * (BUF_SIZE));
+	buf = malloc(sizeof(char) * (BUF_SIZE));
 	if (fd == -1)
 		return (NULL);
 	ret = read(fd, buf, BUF_SIZE);
