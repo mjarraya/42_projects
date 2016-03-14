@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 20:14:00 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/14 16:19:26 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:40:35 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "mlx.h"
 # include "libft/libft.h"
-# include "fcntl.h"
+# include <fcntl.h>
 
 typedef struct			s_fdf
 {
