@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/13 13:33:17 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/13 15:05:32 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:36:38 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,49 +72,80 @@ void	init_fdf(t_fdf *fdf)
 	fdf->x = 0;
 	fdf->y = 0;
 	fdf->z = 0;
+	fdf->pos = 0;
 }
 
 t_fdf	*ft_fdf_parse(char *map)
 {
 	int			i;
 	t_fdf		*fdf;
+	int			y;
 	int	pos;
+	int			x;
 
+	x = 0;
 	pos = 0;
 	i = 0;
+	y = 0;
 	fdf = (t_fdf *)malloc(sizeof(t_fdf) * ft_count_numbers(map));
 	while (map[i])
 	{
 		if (ft_isdigit(map[i]))
 		{
+			fdf[pos].x = (x + 10) * 10;
+			fdf[pos].y = (y + 10) * 10;
 			fdf[pos].z = ft_get_next_nbr(&map[i]);
 			pos++;
 			i++;
+			x++;
+		}
+		if (map[i] == '\n')
+		{
+			y++;
+			x = 0;
 		}
 		i++;
 	}
-	i = 0;
-	while (i < pos)
-	{
-		//printf("point %d, y = %d\n", i, fdf[i].z);
-		i++;
-	}
+	fdf[0].pos = pos;
 	return (fdf);
+}
+
+int	ft_key_funct(int keycode, t_fdf *info)
+{
+	if (keycode == 53)
+		exit(0);
+	printf("keyevent %d\n", keycode);
+	return (0);
 }
 
 int		main(int argc, char **argv)
 {
 	char	*map;
-	int	i;
+	int		i;
 	t_fdf	*fdf;
+	void 	*mlx;
+	void 	*win;
+	t_fdf	*info;
 
+	info = malloc(sizeof(t_fdf));
 	map = ft_fdf_read(argv[1]);
 	fdf = ft_fdf_parse(map);
+	mlx = mlx_init();
+	win = mlx_new_window(mlx, 400, 400, "FDF\n");
+	info->mlx = mlx;
+	info->win = win;
 	i = 0;
-	while (i < 209)
+	while (i < fdf[0].pos)
 	{
-		printf("point %d, y = %d\n", i, fdf[i].z);
+		//fdf[i] = *get_3d(&fdf[i]);
+		//printf("point %d, x = %d, y = %d, z = %d\n", i, fdf[i].x, fdf[i].y, fdf[i].z);
+		if (fdf[i].z > 0)
+			mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0xFF0000);
+		else
+			mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0xFFFFFF);
 		i++;
 	}
+	mlx_key_hook(win, ft_key_funct, info);
+	mlx_loop(mlx);
 	return (0);
 }

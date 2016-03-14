@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 14:08:02 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/13 10:50:30 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/14 17:36:39 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	main(int argc, char **argv)
 	a->y = atoi(argv[2]);
 	b->x = atoi(argv[3]);
 	b->y = atoi(argv[4]);
-	ft_line_trace(info, a, b);
+	//ft_line_trace(info, a, b);
 	mlx_pixel_put(mlx, win, a->x, a->y, 0xFF0000);
 	mlx_pixel_put(mlx, win, b->x, b->y, 0xFF0000);
 	mlx_key_hook(win, ft_key_funct, info);
