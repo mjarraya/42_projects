@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/13 13:33:17 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/14 18:35:45 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/15 20:03:22 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,19 @@ char	*ft_fdf_read(char *file)
 	int		fd;
 	char	*line;
 	char	*new;
+	char	*tmp;
 
 	fd = open(file, O_RDONLY);
-	new = "";
+	new = ft_memalloc(1);
 	while (get_next_line(fd, &line) > 0)
 	{
+		tmp = new;
 		new = ft_strjoin(new, line);
+		free(tmp);
+		tmp = new;
 		new = ft_strjoin(new, "\n");
 		free(line);
+		free(tmp);
 	}
 	return (new);
 }
@@ -56,7 +61,7 @@ int		ft_get_next_nbr(char *s)
 	i = 0;
 	while (ft_isdigit(s[i]) && s[i])
 		i++;
-	num = malloc(sizeof(char) * i + 1);
+	num = ft_memalloc(sizeof(char) * i + 1);
 	i = 0;
 	while (ft_isdigit(s[i]) && s[i])
 	{
@@ -73,6 +78,8 @@ void	init_fdf(t_fdf *fdf)
 	fdf->y = 0;
 	fdf->z = 0;
 	fdf->pos = 0;
+	fdf->nbr_col = 0;
+	fdf->nbr_line = 0;
 }
 
 t_fdf	*ft_fdf_parse(char *map)
@@ -87,14 +94,14 @@ t_fdf	*ft_fdf_parse(char *map)
 	pos = 0;
 	i = 0;
 	y = 0;
-	fdf = (t_fdf *)malloc(sizeof(t_fdf) * ft_count_numbers(map));
+	fdf = (t_fdf *)ft_memalloc(sizeof(t_fdf) * ft_count_numbers(map));
 	while (map[i])
 	{
 		if (ft_isdigit(map[i]))
 		{
 			fdf[pos].x = (x + 10) * 10;
 			fdf[pos].y = (y + 10) * 10;
-			fdf[pos].z = ft_get_next_nbr(&map[i]);
+			fdf[pos].z = ft_get_next_nbr(&map[i]) * 2;
 			pos++;
 			i++;
 			x++;
@@ -106,7 +113,27 @@ t_fdf	*ft_fdf_parse(char *map)
 		}
 		i++;
 	}
+	fdf[0].nbr_col = x;
 	fdf[0].pos = pos;
+	return (fdf);
+}
+
+t_fdf	*ft_max_x(char *map, t_fdf *fdf)
+{
+	int		i;
+
+	i = 0;
+	while (map[i] != '\n' && map[i])
+	{
+		if (ft_isdigit(map[i]))
+		{
+			fdf->nbr_col++;
+			while (ft_isdigit(map[i]) && map[i])
+				i++;
+		}
+		else
+			i++;
+	}
 	return (fdf);
 }
 
@@ -114,7 +141,7 @@ int	ft_key_funct(int keycode, t_fdf *info)
 {
 	if (keycode == 53)
 		exit(0);
-	printf("keyevent %d\n", keycode);
+//	printf("keyevent %d\n", keycode);
 	return (0);
 }
 
@@ -125,14 +152,17 @@ t_fdf	*ft_3d_to_2d(t_fdf *fdf)
 	i = 0;
 	while (i < fdf[0].pos)
 	{
-		fdf[i].x = (fdf[i].x - fdf[i].y) * 1.2 + 450;
-		fdf[i].y = (fdf[i].x + fdf[i].y - (fdf[i].z / 2)) * 1.2 - 150;
+		if (fdf[i].z > 0)
+		{
+			fdf[i].x = fdf[i].x - fdf[i].z + 5;
+			fdf[i].y = fdf[i].y - fdf[i].z + 5;
+		}
 		i++;
 	}
 	return (fdf);
 }
 
-int	ft_line_trace(t_fdf *info, t_fdf *i, t_fdf *f)
+int	ft_line_trace(t_fdf *info, t_fdf i, t_fdf f)
 {
 	int dx;
 	int	dy;
@@ -140,21 +170,21 @@ int	ft_line_trace(t_fdf *info, t_fdf *i, t_fdf *f)
 	int	sy;
 	int	tab[2];
 
-	dx = f->x < i->x ? i->x - f->x : f->x - i->x;
-	dy = f->y < i->y ? i->y - f->y : f->y - i->y;
-	sx = i->x < f->x ? 1 : -1;
-	sy = i->y < f->y ? 1 : -1;
+	dx = f.x < i.x ? i.x - f.x : f.x - i.x;
+	dy = f.y < i.y ? i.y - f.y : f.y - i.y;
+	sx = i.x < f.x ? 1 : -1;
+	sy = i.y < f.y ? 1 : -1;
 	tab[0] = (dx > dy ? dx : -dy) / 2;
 	while (42)
 	{
-		mlx_pixel_put(info->mlx, info->win, i->x, i->y, 0xFFFFFF);
-		if (i->x == f->x && i->y == f->y)
+		mlx_pixel_put(info->mlx, info->win, i.x, i.y, 0xFFFFFF);
+		if (i.x == f.x && i.y == f.y)
 			break ;
 		tab[1] = tab[0];
 		if (tab[1] > -dx && (tab[0] -= dy))
-			i->x += sx;
+			i.x += sx;
 		if (tab[1] < dy && (tab[0] += dx))
-			i->y += sy;
+			i.y += sy;
 	}
 	return (0);
 }
@@ -168,25 +198,31 @@ int		main(int argc, char **argv)
 	void 	*win;
 	t_fdf	*info;
 
-	info = malloc(sizeof(t_fdf));
+	info = ft_memalloc(sizeof(t_fdf));
 	map = ft_fdf_read(argv[1]);
 	fdf = ft_fdf_parse(map);
+	fdf = ft_max_x(map, fdf);
 	fdf = ft_3d_to_2d(fdf);
 	mlx = mlx_init();
-	win = mlx_new_window(mlx, 1000, 1000, "FDF\n");
+	win = mlx_new_window(mlx, 1000, 600, "FDF\n");
 	info->mlx = mlx;
 	info->win = win;
 	i = 0;
 	while (i < fdf[0].pos)
 	{
-		printf("point %d, x = %d, y = %d, z = %d\n", i, fdf[i].x, fdf[i].y, fdf[i].z);
+		if (i % fdf->nbr_col != 0)
+			ft_line_trace(info, fdf[i - 1], fdf[i]);
+		if (i + fdf->nbr_col < fdf[0].pos)
+			ft_line_trace(info, fdf[i], fdf[i + fdf->nbr_col]);
+	//	printf("point %d, x = %d, y = %d, z = %d\n", i, fdf[i].x, fdf[i].y, fdf[i].z);
 		if (fdf[i].z > 0)
-			mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0x00FFFF);
+			mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0xFF00FF);
 		else
 			mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0xFFFFFF);
 		i++;
 	}
-	mlx_key_hook(win, ft_key_funct, info);
+	mlx_pixel_put(info->mlx, info->win, fdf[i].x, fdf[i].y, 0x00FFFFFF);
+	mlx_hook(win, 2, 0, ft_key_funct, info);
 	mlx_loop(mlx);
 	return (0);
 }
