@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 20:14:00 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/15 20:03:23 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/17 20:04:59 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,9 @@ typedef struct			s_fdf
 {
 	void				*mlx;
 	void				*win;
-	int					x;
-	int					y;
-	int					z;
+	double				x;
+	double				y;
+	double				z;
 	int					pos;
 	int					nbr_line;
 	int					nbr_col;
