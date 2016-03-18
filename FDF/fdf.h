@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 20:14:00 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/17 20:04:59 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/18 19:31:10 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,18 @@ typedef struct			s_fdf
 	double				x;
 	double				y;
 	double				z;
+	int					val;
 	int					pos;
 	int					nbr_line;
 	int					nbr_col;
 }						t_fdf;
+
+void					ft_draw_map(t_fdf *fdf, t_fdf *info);
+t_fdf					*ft_3d_to_2d(t_fdf *fdf, int i, int deb, int size);
+int						ft_key_funct(int keycode);
+t_fdf					*ft_max_x(char *map, t_fdf *fdf);
+void					init_fdf(t_fdf *fdf);
+int						ft_get_next_nbr(char *str);
+int						ft_count_numbers(char *str);
 
 #endif
