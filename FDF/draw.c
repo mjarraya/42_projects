@@ -6,13 +6,13 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:25:34 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/18 19:27:47 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/18 20:07:56 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int	ft_key_funct(int keycode)
+int		ft_key_funct(int keycode)
 {
 	if (keycode == 53)
 		exit(0);

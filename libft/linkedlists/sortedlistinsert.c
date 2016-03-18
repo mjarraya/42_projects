@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_clear.c                                    :+:      :+:    :+:   */
+/*   sortedlistinsert.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/02 16:15:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/26 01:21:34 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/03/12 11:58:30 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/03/12 12:01:49 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
-#include <stdlib.h>
 
-void	ft_list_clear(t_list **begin_list)
+void	ft_sorted_list_insert(t_list **begin_list, t_list *new)
 {
-	t_list	*list;
+	t_list	*curr;
 
-	list = *begin_list;
-	if (!list)
-		return ;
-	while ((*begin_list)->next)
+	if (!begin_list || (*begin_list)->data >= new->data)
 	{
-		*begin_list = list->next->next;
-		free(list->next);
-		list->next = *begin_list;
+		new->next = *begin_list;
+		*begin_list = new;
 	}
-
+	else
+	{
+		curr = *begin_list;
+		while (curr->next && curr->next->data < new->data)
+			curr = curr->next;
+		new->next = curr->next;
+		curr->next = new;
+	}
 }

@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_clear.c                                    :+:      :+:    :+:   */
+/*   ft_strtabjoin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/02 16:15:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/26 01:21:34 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/02/26 19:52:16 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/02/26 20:04:25 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include <stdlib.h>
+#include "libft.h"
 
-void	ft_list_clear(t_list **begin_list)
+char	**ft_strtabjoin(char **tab, char *str)
 {
-	t_list	*list;
+	char	**new;
+	int		i;
 
-	list = *begin_list;
-	if (!list)
-		return ;
-	while ((*begin_list)->next)
+	i = ft_tablen(tab);
+	if (!(new = (char **)malloc(sizeof(char *) * (i + 1))))
+		return (NULL);
+	i = 0;
+	while (tab[i])
 	{
-		*begin_list = list->next->next;
-		free(list->next);
-		list->next = *begin_list;
+		new[i] = tab[i];
+		i++;
 	}
-
+	new[i] = str;
+	new[i + 1] = NULL;
+	return (new);
 }

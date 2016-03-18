@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:27:41 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/18 19:31:30 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/18 20:08:09 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	init_fdf(t_fdf *fdf)
 	fdf->nbr_col = 0;
 	fdf->nbr_line = 0;
 }
-
 
 t_fdf	*ft_max_x(char *map, t_fdf *fdf)
 {

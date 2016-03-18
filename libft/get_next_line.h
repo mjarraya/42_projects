@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_list_clear.c                                    :+:      :+:    :+:   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/02/02 16:15:56 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/26 01:21:34 by mjarraya         ###   ########.fr       */
+/*   Created: 2016/01/06 15:02:50 by mjarraya          #+#    #+#             */
+/*   Updated: 2016/02/04 16:02:49 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_list.h"
-#include <stdlib.h>
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# include <stdlib.h>
+# include "libft.h"
 
-void	ft_list_clear(t_list **begin_list)
+# define BUFF_SIZE 3000
+
+typedef	struct	s_struct
 {
-	t_list	*list;
+	char		*buf;
+	char		*buf2;
+}				t_struct;
 
-	list = *begin_list;
-	if (!list)
-		return ;
-	while ((*begin_list)->next)
-	{
-		*begin_list = list->next->next;
-		free(list->next);
-		list->next = *begin_list;
-	}
+int				get_next_line(int const fd, char **line);
 
-}
+#endif

@@ -6,7 +6,7 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/17 20:21:39 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 13:25:03 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/18 22:16:50 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,15 @@ char	**ft_dir_cont(char *path)
 
 	if (!(dir = opendir(path)) && errno == ENOTDIR)
 	{
-		cont = malloc(sizeof(char *) + 1);
-		cont[0] = ft_strdup(path);
-		cont[1] = NULL;
-		return (cont);
+		if (errno == ENOTDIR)
+		{
+			cont = malloc(sizeof(char *) + 1);
+			cont[0] = ft_strdup(path);
+			cont[1] = NULL;
+			return (cont);
+		}
+		else
+			perror(path);
 	}
 	len = 0;
 	while ((ent = readdir(dir)))
@@ -69,5 +74,7 @@ int		main(int argc, char **argv)
 	args = ft_parse(argc, argv);
 	ft_sorted_tab(args.elem);
 	while (args.elem[i])
+	{
 		ft_puttab(ft_sorted_tab(ft_dir_cont(args.elem[i++])));
+	}
 }

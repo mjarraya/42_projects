@@ -6,27 +6,31 @@
 /*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/02/02 16:33:30 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/18 05:26:36 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/22 00:03:14 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_list.h"
 #include <stdlib.h>
 
-void	ft_list_reverse(t_list **begin_list)
+t_list	*ft_list_reverse(t_list *head)
 {
-	t_list	*prev;
-	t_list	*curr;
-	t_list	*next;
+	t_list	*previous;
+	t_list	*ptr;
+	t_list	*temp;
 
-	prev = NULL;
-	curr = *begin_list;
-	while (curr)
+	ptr = head->next;
+	previous = head;
+	while (head->next)
+		head = head->next;
+	previous->next = NULL;
+	while (ptr)
 	{
-		next = curr->next;
-		curr->next = prev;
-		prev = curr;
-		curr = next;
+		temp = ptr->next;
+		ptr->next = previous;
+		previous = ptr;
+		ptr = temp;
 	}
-	*begin_list = prev;
+	return (head);
+
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/28 13:57:14 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/02/06 13:19:51 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/02/26 20:05:07 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		ft_checkfor_opt(char *arg, t_args *args)
 	return (1);
 }
 
-int		ft_check_args(char **argv, t_args *args, int i, int j, int end_opt)
+void	ft_check_args(char **argv, t_args *args, int i, int j, int end_opt)
 {
 	while (argv[++i])
 	{
@@ -84,7 +84,6 @@ int		ft_check_args(char **argv, t_args *args, int i, int j, int end_opt)
 		}
 	}
 	args->elem[j] = NULL;
-	return (1);
 }
 
 t_args	ft_parse(int argc, char **argv)
