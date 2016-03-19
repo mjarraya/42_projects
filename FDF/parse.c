@@ -6,35 +6,38 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/13 13:33:17 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/18 19:29:01 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/19 12:50:59 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-char	*ft_fdf_read(char *file)
+char	*ft_fdf_read(char *file, int start)
 {
 	int		fd;
 	char	*line;
 	char	*new;
+	int		i;
+	int		e;
 
 	if ((fd = open(file, O_RDONLY)) == -1)
-	{
-		ft_putendl_fd("open error()", 2);
-		exit(1);
-	}
+		ft_fdf_error(1);
 	new = ft_strnew(0);
 	while (get_next_line(fd, &line) > 0)
 	{
+		start++;
 		new = ft_strjoin(new, line);
 		new = ft_strjoin(new, "\n");
+		i = ft_count_numbers(line);
+		if (start > 1 && i != e)
+			ft_fdf_error(0);
+		e = i;
 		free(line);
 	}
+	if (start < 2)
+		ft_fdf_error(0);
 	if (close(fd) == -1)
-	{
-		ft_putendl_fd("close error()", 2);
-		exit(0);
-	}
+		ft_fdf_error(2);
 	return (new);
 }
 
@@ -79,7 +82,7 @@ void	ft_verif_fdf(char *map)
 			ft_putendl_fd("Carte invalide", 2);
 			exit(1);
 		}
-		if (!ft_isdigit(map[i]) && !ft_isspace(map[i]))
+		if (!ft_isdigit(map[i]) && !ft_isspace(map[i]) && map[i] != '-')
 		{
 			ft_putendl_fd("Carte invalide (nombres et espaces)", 2);
 			exit(1);
@@ -95,7 +98,7 @@ int		ft_fdf(char *file)
 	t_fdf	*info;
 
 	info = ft_memalloc(sizeof(t_fdf));
-	map = ft_fdf_read(file);
+	map = ft_fdf_read(file, 0);
 	ft_verif_fdf(map);
 	fdf = ft_fdf_parse(map, 0, 0, 0);
 	fdf = ft_max_x(map, fdf);
@@ -103,6 +106,7 @@ int		ft_fdf(char *file)
 	info->mlx = mlx_init();
 	info->win = mlx_new_window(info->mlx, 1920, 1080, "FDF\n");
 	ft_draw_map(fdf, info);
+	mlx_string_put(info->mlx, info->win, 35, 35, 0xFFFFFF, "Quit = ESC");
 	mlx_hook(info->win, 2, 0, ft_key_funct, info);
 	mlx_loop(info->mlx);
 	return (0);

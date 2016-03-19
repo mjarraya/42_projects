@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:25:34 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/18 20:07:56 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/19 10:11:58 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ t_fdf	*ft_3d_to_2d(t_fdf *fdf, int i, int deb, int size)
 {
 	double	mult;
 
-	if (fdf[0].nbr_col > 100)
+	if (fdf[0].n_col > 100)
 	{
-		mult = fdf[0].nbr_col / 50;
+		mult = fdf[0].n_col / 50;
 		deb = 35;
 		size = 40;
 	}
 	else
 	{
-		mult = fdf[0].nbr_col * 14 / 10;
+		mult = fdf[0].n_col < 10 ? fdf[0].n_col * 10 : fdf[0].n_col * 14 / 10;
 		deb = 5;
 		size = 3 / 2;
 	}
@@ -93,7 +93,7 @@ void	ft_draw_map(t_fdf *fdf, t_fdf *info)
 	i = 0;
 	while (i < fdf[0].pos)
 	{
-		if (i % fdf->nbr_col != 0)
+		if (i % fdf->n_col != 0)
 		{
 			if (fdf[i - 1].val > 27 && fdf[i].val > 27)
 				ft_line_trace(info, fdf[i - 1], fdf[i], 1);
@@ -102,14 +102,14 @@ void	ft_draw_map(t_fdf *fdf, t_fdf *info)
 			else
 				ft_line_trace(info, fdf[i - 1], fdf[i], 0);
 		}
-		if (i + fdf->nbr_col < fdf[0].pos)
+		if (i + fdf->n_col < fdf[0].pos)
 		{
-			if (fdf[i].val > 27 && fdf[i + fdf->nbr_col].val > 27)
-				ft_line_trace(info, fdf[i], fdf[i + fdf->nbr_col], 1);
-			else if (fdf[i].val > 27 || fdf[i + fdf->nbr_col].val > 27)
-				ft_line_trace(info, fdf[i], fdf[i + fdf->nbr_col], 2);
+			if (fdf[i].val > 27 && fdf[i + fdf->n_col].val > 27)
+				ft_line_trace(info, fdf[i], fdf[i + fdf->n_col], 1);
+			else if (fdf[i].val > 27 || fdf[i + fdf->n_col].val > 27)
+				ft_line_trace(info, fdf[i], fdf[i + fdf->n_col], 2);
 			else
-				ft_line_trace(info, fdf[i], fdf[i + fdf->nbr_col], 0);
+				ft_line_trace(info, fdf[i], fdf[i + fdf->n_col], 0);
 		}
 		i++;
 	}
