@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 13:55:03 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/21 17:26:08 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/21 20:28:18 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,46 @@
 int		ft_key_funct(int keycode, void *param)
 {
 	t_info	*info;
+	t_fract	*fract;
+	int		z_x;
+	int		z_y;
 
 	info = param;
+	fract = info->fract;
+	z_x = info->fract->zoom_x;
+	z_y = info->fract->zoom_y;
 	if (keycode == 53)
 		exit(0);
 	if (keycode == 49)
 		info->p = info->p ? 0 : 1;
+	if (info->p == 1)
+	{
+		if (keycode == 126) //up
+		{
+			info->fract->zoom_x = info->fract->zoom_x * 2;
+			info->fract->zoom_y = info->fract->zoom_y * 2;
+			info->fract->x1 += info->pos[0] / z_x - (info->pos[0] / info->fract->zoom_x);
+			info->fract->y1 += info->pos[1] / z_y - (info->pos[1] / info->fract->zoom_y);
+			info->fract->imax += 10;
+		}
+		if (keycode == 125) //down
+		{
+			info->fract->zoom_x = info->fract->zoom_x / 2;
+			info->fract->zoom_y = info->fract->zoom_y / 2;
+			info->fract->x1 += info->pos[0] / z_x - (info->pos[0] / info->fract->zoom_x);
+			info->fract->y1 += info->pos[1] / z_y - (info->pos[1] / info->fract->zoom_y);
+			info->fract->imax -= 10;
+		}
+		printf("%d\n", keycode);
+	}
+	restart_fract(fract, info);
 	return (0);
 }
 
 int		restart_fract(t_fract *fract, t_info *info)
 {
 	mlx_destroy_image(info->mlx, info->img);
-	info->img = mlx_new_image(info->mlx, 1000, 1000);
+	info->img = mlx_new_image(info->mlx, 800, 800);
 	info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
 	&info->endian);
 	if (info->f == 1)
@@ -43,17 +70,34 @@ int		ft_mouse_scroll(int button, int x, int y, void *param)//, int x, int y)//, 
 {
 	t_fract	*fract;
 	t_info	*info;
+	double	z_x;
+	double	z_y;
 
 	info = param;
 	fract = info->fract;
-	if (info->p == 1 && button == 4) // down
+	if (info->p == 1)
 	{
-		info->fract-> = info->fract->zoom - 1;
-		printf("zoom: %f\n", info->fract->zoom);
-	}
-	if (info->p == 1 && button == 5) // up
-	{
-		printf("button: %d, x: %d, y: %d\n", button, x, y);
+		z_x = info->fract->zoom_x;
+		z_y = info->fract->zoom_y;
+		if (button == 4) // down
+		{
+			info->fract->zoom_x = info->fract->zoom_x * 2;
+			info->fract->zoom_y = info->fract->zoom_y * 2;
+			info->fract->x1 += x / z_x - (x / info->fract->zoom_x);
+			info->fract->y1 += y / z_y - (y / info->fract->zoom_y);
+			info->fract->imax += 10;
+			printf("button: %d, x1: %f, y1: %f\n", button, info->fract->x1, info->fract->y1);
+		}
+		if (button == 5) // up
+		{
+			info->fract->zoom_x = info->fract->zoom_x / 2;
+			info->fract->zoom_y = info->fract->zoom_y / 2;
+			info->fract->x1 += x / z_x - (x / info->fract->zoom_x);
+			info->fract->y1 += y / z_y - (y / info->fract->zoom_y);
+			info->fract->imax -= 10;
+			printf("button: %d, x1: %f, y1: %f\n", button, info->fract->x1, info->fract->y1);
+		}
+		restart_fract(fract, info);
 	}
 	return (0);
 }
@@ -69,8 +113,10 @@ int		ft_mouse_funct(int x, int y, void *param)
 	{
 		info->fract->tmp_r = (double)(x - 500) / 500;
 		info->fract->tmp_i = (double)(y - 500) / 500;
+		restart_fract(fract, info);
 	}
-	restart_fract(fract, info);
+	info->pos[0] = x;
+	info->pos[1] = y;
 	return (0);
 }
 
@@ -106,12 +152,11 @@ t_fract	*ft_julia_init(void)
 	j->x2 = 1;
 	j->y1 = -1.2;
 	j->y2 = 1.2;
-	j->zoom = 350;
-	//j->image_x = (j->x2 - j->x1) * j->zoom;
-	//j->image_y = (j->y2 - j->y1) * j->zoom;
-	j->image_x = 1000;
-	j->image_y = 1000;
-	j->imax = 20;
+	j->image_x = 800;
+	j->image_y = 800;
+	j->zoom_x = j->image_x/(j->x2 - j->x1);
+	j->zoom_y = j->image_y/(j->y2 - j->y1);
+	j->imax = 30;
 	j->c_r = 0;
 	j->c_i = 0;
 	j->z_r = 0;
@@ -135,8 +180,8 @@ void	ft_julia(t_fract *j, t_info *info)
 		y = 0;
 		while (y < j->image_y)
 		{
-			j->z_r = x / j->zoom + j->x1;
-			j->z_i = y / j->zoom + j->y1;
+			j->z_r = x / j->zoom_x + j->x1;
+			j->z_i = y / j->zoom_y + j->y1;
 			j->c_r = j->tmp_r;
 			j->c_i = j->tmp_i;
 			j->i = 0;
@@ -163,9 +208,10 @@ t_fract	*ft_mbrot_init(void)
 	m->x2 = 0.6;
 	m->y1 = -1.2;
 	m->y2 = 1.2;
-	m->zoom = 350;
-	m->image_x = (m->x2 - m->x1) * m->zoom;
-	m->image_y = (m->y2 - m->y1) * m->zoom;
+	m->image_x = 800;
+	m->image_y = 800;
+	m->zoom_x = m->image_x / (m->x2 - m->x1);
+	m->zoom_y = m->image_y / (m->x2 - m->x1);
 	m->imax = 30;
 	m->c_r = 0;
 	m->c_i = 0;
@@ -207,8 +253,8 @@ void	ft_mbrot(t_fract *m, t_info *info)
 		y = 0;
 		while (y < m->image_y)
 		{
-			m->c_r = x / m->zoom + m->x1;
-			m->c_i = y / m->zoom + m->y1;
+			m->c_r = x / m->zoom_x + m->x1;
+			m->c_i = y / m->zoom_y + m->y1;
 			m->z_r = m->tmp_r;
 			m->z_i = m->tmp_i;
 			m->i = 0;
@@ -235,12 +281,12 @@ void	ft_fractol(char *file)
 		ft_fractol_err(0);
 	info = ft_memalloc(sizeof(t_info));
 	info->mlx = mlx_init();
-	info->win = mlx_new_window(info->mlx, 940, 840, "Fract'ol\n");
+	info->win = mlx_new_window(info->mlx, 800, 800, "Fract'ol\n");
 	if (ft_fractol_verif(file) == 1)
 	{
 		fract = ft_mbrot_init();
 		info->fract = fract;
-		info->img = mlx_new_image(info->mlx, 1000, 1000);
+		info->img = mlx_new_image(info->mlx, 800, 800);
 		info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
 		&info->endian);
 		info->deca_nbit = info->nbit >> 3;
@@ -251,7 +297,7 @@ void	ft_fractol(char *file)
 	{
 		fract = ft_julia_init();
 		info->fract = fract;
-		info->img = mlx_new_image(info->mlx, 1000, 1000);
+		info->img = mlx_new_image(info->mlx, 800, 800);
 		info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
 		&info->endian);
 		info->deca_nbit = info->nbit >> 3;
