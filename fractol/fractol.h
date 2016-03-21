@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 13:54:35 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/19 19:41:13 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/21 17:21:51 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,6 @@
 # include "libft/libft.h"
 # include "mlx.h"
 # include <fcntl.h>
-
-typedef	struct			s_info
-{
-	void				*mlx;
-	void				*win;
-}						t_info;
 
 typedef	struct			s_fract
 {
@@ -36,7 +30,29 @@ typedef	struct			s_fract
 	double				c_i;
 	double				z_r;
 	double				z_i;
+	double				tmp_r;
+	double				tmp_i;
+	int					i;
 
 }						t_fract;
+
+typedef	struct			s_info
+{
+	int					p;
+	int					f;
+	void				*mlx;
+	void				*win;
+	void				*img;
+	char				*img_data;
+	int					nbit;
+	int					deca_nbit;
+	int					line;
+	int					endian;
+	struct s_fract		*fract;
+}						t_info;
+
+void	ft_mbrot(t_fract *m, t_info *info);
+void	ft_julia(t_fract *j, t_info *info);
+void	put_pixel_to_img(t_fract *m, int x, int y, t_info *info);
 
 #endif
