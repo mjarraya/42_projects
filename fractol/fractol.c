@@ -6,12 +6,20 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 13:55:03 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/21 20:28:18 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/22 19:49:34 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fractol.h"
 #include <stdio.h>
+
+int	ft_exit(void *param)
+{
+	t_info	*info;
+
+	info = param;
+	exit(1);
+}
 
 int		ft_key_funct(int keycode, void *param)
 {
@@ -28,26 +36,6 @@ int		ft_key_funct(int keycode, void *param)
 		exit(0);
 	if (keycode == 49)
 		info->p = info->p ? 0 : 1;
-	if (info->p == 1)
-	{
-		if (keycode == 126) //up
-		{
-			info->fract->zoom_x = info->fract->zoom_x * 2;
-			info->fract->zoom_y = info->fract->zoom_y * 2;
-			info->fract->x1 += info->pos[0] / z_x - (info->pos[0] / info->fract->zoom_x);
-			info->fract->y1 += info->pos[1] / z_y - (info->pos[1] / info->fract->zoom_y);
-			info->fract->imax += 10;
-		}
-		if (keycode == 125) //down
-		{
-			info->fract->zoom_x = info->fract->zoom_x / 2;
-			info->fract->zoom_y = info->fract->zoom_y / 2;
-			info->fract->x1 += info->pos[0] / z_x - (info->pos[0] / info->fract->zoom_x);
-			info->fract->y1 += info->pos[1] / z_y - (info->pos[1] / info->fract->zoom_y);
-			info->fract->imax -= 10;
-		}
-		printf("%d\n", keycode);
-	}
 	restart_fract(fract, info);
 	return (0);
 }
@@ -63,10 +51,29 @@ int		restart_fract(t_fract *fract, t_info *info)
 	if (info->f == 2)
 		ft_julia(fract, info);
 	mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
+	mlx_string_put(info->mlx, info->win, 35, 35, 0xFFFFFF, "Quit = ESC");
+	mlx_string_put(info->mlx, info->win, 35, 55, 0xFFFFFF,
+		"Space to pause and zoom (mouse scroll)");
 	return (0);
 }
 
-int		ft_mouse_scroll(int button, int x, int y, void *param)//, int x, int y)//, void *param)
+void	ft_zoom(int button, t_info *info)
+{
+	if (button == 4)
+	{
+		info->fract->zoom_x = info->fract->zoom_x * 2;
+		info->fract->zoom_y = info->fract->zoom_y * 2;
+		info->fract->imax += 10;
+	}
+	if (button == 5)
+	{
+		info->fract->zoom_x = info->fract->zoom_x / 2;
+		info->fract->zoom_y = info->fract->zoom_y / 2;
+		info->fract->imax -= 10;
+	}
+}
+
+int		ft_mouse_scroll(int button, int x, int y, void *param)
 {
 	t_fract	*fract;
 	t_info	*info;
@@ -75,30 +82,14 @@ int		ft_mouse_scroll(int button, int x, int y, void *param)//, int x, int y)//, 
 
 	info = param;
 	fract = info->fract;
-	if (info->p == 1)
-	{
-		z_x = info->fract->zoom_x;
-		z_y = info->fract->zoom_y;
-		if (button == 4) // down
-		{
-			info->fract->zoom_x = info->fract->zoom_x * 2;
-			info->fract->zoom_y = info->fract->zoom_y * 2;
-			info->fract->x1 += x / z_x - (x / info->fract->zoom_x);
-			info->fract->y1 += y / z_y - (y / info->fract->zoom_y);
-			info->fract->imax += 10;
-			printf("button: %d, x1: %f, y1: %f\n", button, info->fract->x1, info->fract->y1);
-		}
-		if (button == 5) // up
-		{
-			info->fract->zoom_x = info->fract->zoom_x / 2;
-			info->fract->zoom_y = info->fract->zoom_y / 2;
-			info->fract->x1 += x / z_x - (x / info->fract->zoom_x);
-			info->fract->y1 += y / z_y - (y / info->fract->zoom_y);
-			info->fract->imax -= 10;
-			printf("button: %d, x1: %f, y1: %f\n", button, info->fract->x1, info->fract->y1);
-		}
-		restart_fract(fract, info);
-	}
+	if (info->p != 1)
+		return (1);
+	z_x = info->fract->zoom_x;
+	z_y = info->fract->zoom_y;
+	ft_zoom(button, info);
+	info->fract->x1 += x / z_x - (x / info->fract->zoom_x);
+	info->fract->y1 += y / z_y - (y / info->fract->zoom_y);
+	restart_fract(fract, info);
 	return (0);
 }
 
@@ -115,8 +106,6 @@ int		ft_mouse_funct(int x, int y, void *param)
 		info->fract->tmp_i = (double)(y - 500) / 500;
 		restart_fract(fract, info);
 	}
-	info->pos[0] = x;
-	info->pos[1] = y;
 	return (0);
 }
 
@@ -133,7 +122,7 @@ int		ft_fractol_verif(char *name)
 		return (1);
 	if (ft_strcmp(name, "julia") == 0)
 		return (2);
-	if (ft_strcmp(name, "fract3") == 0)
+	if (ft_strcmp(name, "buddhabrot") == 0)
 		return (3);
 	else
 		return (0);
@@ -154,9 +143,9 @@ t_fract	*ft_julia_init(void)
 	j->y2 = 1.2;
 	j->image_x = 800;
 	j->image_y = 800;
-	j->zoom_x = j->image_x/(j->x2 - j->x1);
-	j->zoom_y = j->image_y/(j->y2 - j->y1);
-	j->imax = 30;
+	j->zoom_x = j->image_x / (j->x2 - j->x1);
+	j->zoom_y = j->image_y / (j->y2 - j->y1);
+	j->imax = 42;
 	j->c_r = 0;
 	j->c_i = 0;
 	j->z_r = 0;
@@ -212,7 +201,7 @@ t_fract	*ft_mbrot_init(void)
 	m->image_y = 800;
 	m->zoom_x = m->image_x / (m->x2 - m->x1);
 	m->zoom_y = m->image_y / (m->x2 - m->x1);
-	m->imax = 30;
+	m->imax = 42;
 	m->c_r = 0;
 	m->c_i = 0;
 	m->z_r = 0;
@@ -227,14 +216,14 @@ void	put_pixel_to_img(t_fract *m, int x, int y, t_info *info)
 {
 	if (m->i == m->imax)
 	{
-		info->img_data[x * info->deca_nbit + (y * info->line)] = 255;
-		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 102;
-		info->img_data[x * info->deca_nbit + (y * info->line) + 2] = 102;
+		info->img_data[x * info->deca_nbit + (y * info->line)] = 168;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 185;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 2] = 2;
 	}
 	else
 	{
-		info->img_data[x * info->deca_nbit + (y * info->line)] = 100;
-		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 100;
+		info->img_data[x * info->deca_nbit + (y * info->line)] = 255;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 127;
 		info->img_data[x * info->deca_nbit + (y * info->line) + 2] =
 													m->i * 255 / m->imax;
 	}
@@ -272,43 +261,105 @@ void	ft_mbrot(t_fract *m, t_info *info)
 	}
 }
 
+t_fract	*ft_bbrot_init(void)
+{
+	t_fract	*b;
+
+	b = ft_memalloc(sizeof(t_fract));
+	b->x1 = -2.1;
+	b->x2 = 0.6;
+	b->y1 = -1.2;
+	b->y2 = 1.2;
+	b->image_x = 800;
+	b->image_y = 800;
+	b->zoom_x = b->image_x / (b->x2 - b->x1);
+	b->zoom_y = b->image_y / (b->x2 - b->x1);
+	b->imax = 42;
+	b->c_r = 0;
+	b->c_i = 0;
+	b->z_r = 0;
+	b->z_i = 0;
+	b->tmp_r = 0;
+	b->tmp_i = 0;
+	b->i = 0;
+	return (b);
+}
+
+void	ft_bbrot(t_fract *b, t_info *info)
+{
+	double	x;
+	double	y;
+	double	tmp;
+
+	info->f = 1;
+	x = 0;
+	while (x < b->image_x)
+	{
+		y = 0;
+		while (y < b->image_y)
+		{
+			b->c_r = x / b->zoom_x + b->x1;
+			b->c_i = y / b->zoom_y + b->y1;
+			b->z_r = b->tmp_r;
+			b->z_i = b->tmp_i;
+			b->i = 0;
+			while (b->z_r * b->z_r + b->z_i * b->z_i < 4 && b->i < b->imax)
+			{
+				tmp = b->z_r;
+				b->z_r = b->z_r * b->z_r - b->z_i * b->z_i + b->c_r;
+				b->z_i = 2 * b->z_i * tmp + b->c_i;
+				b->i++;
+			}
+			put_pixel_to_img(b, x, y, info);
+			y++;
+		}
+		x++;
+	}
+}
+
+void	ft_select_fract(int choice, t_info *info)
+{
+	t_fract	*fract;
+
+	if (choice == 1)
+		fract = ft_mbrot_init();
+	if (choice == 2)
+		fract = ft_julia_init();
+	if (choice == 3)
+		fract = ft_bbrot_init();
+	info->fract = fract;
+	info->img = mlx_new_image(info->mlx, 800, 800);
+	info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
+	&info->endian);
+	info->deca_nbit = info->nbit >> 3;
+	if (choice == 1)
+		ft_mbrot(fract, info);
+	if (choice == 2)
+		ft_julia(fract, info);
+	if (choice == 3)
+		ft_bbrot(fract, info);
+	mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
+}
+
 void	ft_fractol(char *file)
 {
 	t_info	*info;
-	t_fract	*fract;
+	int		ret;
 
 	if (!(ft_fractol_verif(file)))
 		ft_fractol_err(0);
 	info = ft_memalloc(sizeof(t_info));
 	info->mlx = mlx_init();
 	info->win = mlx_new_window(info->mlx, 800, 800, "Fract'ol\n");
-	if (ft_fractol_verif(file) == 1)
-	{
-		fract = ft_mbrot_init();
-		info->fract = fract;
-		info->img = mlx_new_image(info->mlx, 800, 800);
-		info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
-		&info->endian);
-		info->deca_nbit = info->nbit >> 3;
-		ft_mbrot(fract, info);
-		mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
-	}
-	else if (ft_fractol_verif(file) == 2)
-	{
-		fract = ft_julia_init();
-		info->fract = fract;
-		info->img = mlx_new_image(info->mlx, 800, 800);
-		info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
-		&info->endian);
-		info->deca_nbit = info->nbit >> 3;
-		ft_julia(fract, info);
-		mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
-	}
-	else if (ft_fractol_verif(file) == 3)
-		ft_fract3();
-	mlx_hook(info->win, 2, 0, ft_key_funct, info);
-	mlx_hook(info->win, 4, 0, ft_mouse_scroll, info);
+	ret = ft_fractol_verif(file);
+	ft_select_fract(ret, info);
+	mlx_string_put(info->mlx, info->win, 35, 35, 0xFFFFFF, "Quit = ESC");
+	mlx_string_put(info->mlx, info->win, 35, 55, 0xFFFFFF,
+		"Space to pause and zoom (mouse scroll)");
+	mlx_hook(info->win, 17, 0, ft_exit, info);
 	mlx_hook(info->win, 6, 0, ft_mouse_funct, info);
+	mlx_hook(info->win, 4, 0, ft_mouse_scroll, info);
+	mlx_hook(info->win, 2, 0, ft_key_funct, info);
 	mlx_loop(info->mlx);
 }
 

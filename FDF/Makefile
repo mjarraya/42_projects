@@ -6,13 +6,13 @@
 #    By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/18 19:32:43 by mjarraya          #+#    #+#              #
-#    Updated: 2016/03/19 11:05:04 by mjarraya         ###   ########.fr        #
+#    Updated: 2016/03/22 14:48:54 by mjarraya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fdf
 
-SRC = draw.c parse.c utils.c
+SRC = draw.c parse.c utils.c main.c
 
 OBJ = $(SRC:.c=.o)
 

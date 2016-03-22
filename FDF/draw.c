@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:25:34 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/19 10:11:58 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/22 17:04:47 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,18 @@ t_fdf	*ft_3d_to_2d(t_fdf *fdf, int i, int deb, int size)
 {
 	double	mult;
 
-	if (fdf[0].n_col > 100)
+	if (fdf[0].n_col >= 50)
 	{
-		mult = fdf[0].n_col / 50;
+		mult = fdf[0].n_col >= 100 ? fdf[0].n_col / 50 : fdf[0].n_col / 10;
 		deb = 35;
 		size = 40;
 	}
+	else if (fdf[0].n_col >= 25)
+		mult = fdf[0].n_col / 2;
 	else
-	{
 		mult = fdf[0].n_col < 10 ? fdf[0].n_col * 10 : fdf[0].n_col * 14 / 10;
-		deb = 5;
-		size = 3 / 2;
-	}
+	deb = deb != 0 ? deb : 5;
+	size = size != 0 ? size : 3 / 2;
 	i = -1;
 	while (i++ < fdf[0].pos)
 	{

@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:27:41 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/19 12:51:22 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/22 17:06:35 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	ft_fdf_error(int e)
 {
 	if (e == 0)
 	{
-		ft_putendl_fd("Carte invalide (non rectangulaire)", 2);
+		ft_putendl_fd("Carte invalide", 2);
 		exit(1);
 	}
 	if (e == 1)
