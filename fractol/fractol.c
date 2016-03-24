@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 13:55:03 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 19:49:34 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/24 01:22:55 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,10 @@ int		restart_fract(t_fract *fract, t_info *info)
 		ft_mbrot(fract, info);
 	if (info->f == 2)
 		ft_julia(fract, info);
+	if (info->f == 3)
+		ft_bship(fract, info);
+	if (info->f == 4)
+		ft_carpet(fract, info);
 	mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
 	mlx_string_put(info->mlx, info->win, 35, 35, 0xFFFFFF, "Quit = ESC");
 	mlx_string_put(info->mlx, info->win, 35, 55, 0xFFFFFF,
@@ -112,7 +116,8 @@ int		ft_mouse_funct(int x, int y, void *param)
 void	ft_fractol_err(int e)
 {
 	if (e == 0)
-		ft_putendl_fd("Usage: ./fdf fractal_name (mandelbrot/julia/fract3)", 2);
+		ft_putendl_fd(
+			"Usage: ./fdf fractal_name (mandelbrot/julia/burningship, carpet)", 2);
 	exit(1);
 }
 
@@ -122,14 +127,12 @@ int		ft_fractol_verif(char *name)
 		return (1);
 	if (ft_strcmp(name, "julia") == 0)
 		return (2);
-	if (ft_strcmp(name, "buddhabrot") == 0)
+	if (ft_strcmp(name, "burningship") == 0)
 		return (3);
+	if (ft_strcmp(name, "carpet") == 0)
+		return (4);
 	else
 		return (0);
-}
-
-void	ft_fract3()
-{
 }
 
 t_fract	*ft_julia_init(void)
@@ -137,15 +140,15 @@ t_fract	*ft_julia_init(void)
 	t_fract	*j;
 
 	j = ft_memalloc(sizeof(t_fract));
-	j->x1 = -1;
-	j->x2 = 1;
+	j->x1 = -1.5;
+	j->x2 = 1.5;
 	j->y1 = -1.2;
 	j->y2 = 1.2;
 	j->image_x = 800;
 	j->image_y = 800;
 	j->zoom_x = j->image_x / (j->x2 - j->x1);
 	j->zoom_y = j->image_y / (j->y2 - j->y1);
-	j->imax = 42;
+	j->imax = 50;
 	j->c_r = 0;
 	j->c_i = 0;
 	j->z_r = 0;
@@ -200,8 +203,8 @@ t_fract	*ft_mbrot_init(void)
 	m->image_x = 800;
 	m->image_y = 800;
 	m->zoom_x = m->image_x / (m->x2 - m->x1);
-	m->zoom_y = m->image_y / (m->x2 - m->x1);
-	m->imax = 42;
+	m->zoom_y = m->image_y / (m->y2 - m->y1);
+	m->imax = 50;
 	m->c_r = 0;
 	m->c_i = 0;
 	m->z_r = 0;
@@ -226,6 +229,22 @@ void	put_pixel_to_img(t_fract *m, int x, int y, t_info *info)
 		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 127;
 		info->img_data[x * info->deca_nbit + (y * info->line) + 2] =
 													m->i * 255 / m->imax;
+	}
+}
+
+void	put_pixel_to_img_carpet(int color, int x, int y, t_info *info)
+{
+	if (color == 0)
+	{
+		info->img_data[x * info->deca_nbit + (y * info->line)] = 168;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 185;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 2] = 2;
+	}
+	if (color == 1)
+	{
+		info->img_data[x * info->deca_nbit + (y * info->line)] = 159;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 1] = 12;
+		info->img_data[x * info->deca_nbit + (y * info->line) + 2] = 15;
 	}
 }
 
@@ -261,19 +280,19 @@ void	ft_mbrot(t_fract *m, t_info *info)
 	}
 }
 
-t_fract	*ft_bbrot_init(void)
+t_fract	*ft_bship_init(void)
 {
 	t_fract	*b;
 
 	b = ft_memalloc(sizeof(t_fract));
-	b->x1 = -2.1;
-	b->x2 = 0.6;
-	b->y1 = -1.2;
-	b->y2 = 1.2;
+	b->x1 = -1.5;
+	b->x2 = 1.5;
+	b->y1 = -1;
+	b->y2 = 1;
 	b->image_x = 800;
 	b->image_y = 800;
 	b->zoom_x = b->image_x / (b->x2 - b->x1);
-	b->zoom_y = b->image_y / (b->x2 - b->x1);
+	b->zoom_y = b->image_y / (b->y2 - b->y1);
 	b->imax = 42;
 	b->c_r = 0;
 	b->c_i = 0;
@@ -285,13 +304,20 @@ t_fract	*ft_bbrot_init(void)
 	return (b);
 }
 
-void	ft_bbrot(t_fract *b, t_info *info)
+double	ft_abs(double x)
+{
+	if (x < 0)
+		return (-x);
+	return (x);
+}
+
+void	ft_bship(t_fract *b, t_info *info)
 {
 	double	x;
 	double	y;
 	double	tmp;
 
-	info->f = 1;
+	info->f = 3;
 	x = 0;
 	while (x < b->image_x)
 	{
@@ -303,11 +329,11 @@ void	ft_bbrot(t_fract *b, t_info *info)
 			b->z_r = b->tmp_r;
 			b->z_i = b->tmp_i;
 			b->i = 0;
-			while (b->z_r * b->z_r + b->z_i * b->z_i < 4 && b->i < b->imax)
+			while (b->z_r * b->z_r + b->z_i *b->z_i < 4 && b->i < b->imax)
 			{
 				tmp = b->z_r;
-				b->z_r = b->z_r * b->z_r - b->z_i * b->z_i + b->c_r;
-				b->z_i = 2 * b->z_i * tmp + b->c_i;
+				b->z_r = b->z_r * b->z_r - b->z_i * b->z_i - b->c_r;
+				b->z_i = 2 * ft_abs(b->z_i) * ft_abs(tmp) + b->c_i;
 				b->i++;
 			}
 			put_pixel_to_img(b, x, y, info);
@@ -317,7 +343,44 @@ void	ft_bbrot(t_fract *b, t_info *info)
 	}
 }
 
-void	ft_select_fract(int choice, t_info *info)
+t_fract	*ft_carpet_init()
+{
+	t_fract	*c;
+
+	c = ft_memalloc(sizeof(t_fract));
+	c->x1 = 0;
+	c->y1 = 0;
+	c->image_x = 800;
+	c->image_y = 800;
+	c->zoom_x = c->image_x / (c->x2 - c->x1);
+	c->zoom_y = c->image_y / (c->y2 - c->y1);
+	c->c_r = 0;
+	c->c_i = 0;
+	c->z_r = 0;
+	c->z_i = 0;
+	c->tmp_r = 0;
+	c->tmp_i = 0;
+	return (c);
+}
+
+void	ft_carpet(t_fract *c, t_info *info)
+{
+	int	x;
+	int	y;
+
+	(void)c;
+	(void)info;
+	while (x > 0 || y > 0)
+	{
+		if (x % 3 == 1 && y % 3 == 1)
+			;
+		x /= 3;
+		y /= 3;
+	}
+	;
+}
+
+int		ft_select_fract(int choice, t_info *info)
 {
 	t_fract	*fract;
 
@@ -326,7 +389,9 @@ void	ft_select_fract(int choice, t_info *info)
 	if (choice == 2)
 		fract = ft_julia_init();
 	if (choice == 3)
-		fract = ft_bbrot_init();
+		fract = ft_bship_init();
+	if (choice == 4)
+		fract = ft_carpet_init();
 	info->fract = fract;
 	info->img = mlx_new_image(info->mlx, 800, 800);
 	info->img_data = mlx_get_data_addr(info->img, &info->nbit, &info->line,
@@ -337,8 +402,11 @@ void	ft_select_fract(int choice, t_info *info)
 	if (choice == 2)
 		ft_julia(fract, info);
 	if (choice == 3)
-		ft_bbrot(fract, info);
+		ft_bship(fract, info);
+	if (choice == 4)
+		ft_carpet(fract, info);
 	mlx_put_image_to_window(info->mlx, info->win, info->img, 0, 0);
+	return (choice);
 }
 
 void	ft_fractol(char *file)
@@ -352,12 +420,13 @@ void	ft_fractol(char *file)
 	info->mlx = mlx_init();
 	info->win = mlx_new_window(info->mlx, 800, 800, "Fract'ol\n");
 	ret = ft_fractol_verif(file);
-	ft_select_fract(ret, info);
+	ret = ft_select_fract(ret, info);
 	mlx_string_put(info->mlx, info->win, 35, 35, 0xFFFFFF, "Quit = ESC");
 	mlx_string_put(info->mlx, info->win, 35, 55, 0xFFFFFF,
 		"Space to pause and zoom (mouse scroll)");
 	mlx_hook(info->win, 17, 0, ft_exit, info);
-	mlx_hook(info->win, 6, 0, ft_mouse_funct, info);
+	if (ret != 3 && ret != 4)
+		mlx_hook(info->win, 6, 0, ft_mouse_funct, info);
 	mlx_hook(info->win, 4, 0, ft_mouse_scroll, info);
 	mlx_hook(info->win, 2, 0, ft_key_funct, info);
 	mlx_loop(info->mlx);

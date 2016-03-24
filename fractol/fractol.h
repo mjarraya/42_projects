@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/19 13:54:35 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 19:49:34 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/24 01:22:59 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,10 @@ typedef	struct			s_info
 
 void	ft_mbrot(t_fract *m, t_info *info);
 void	ft_julia(t_fract *j, t_info *info);
+void	ft_bship(t_fract *b, t_info *info);
+void	ft_carpet(t_fract *f, t_info *info);
 void	put_pixel_to_img(t_fract *m, int x, int y, t_info *info);
 int		restart_fract(t_fract *fract, t_info *info);
+void	put_pixel_to_img_carpet(int color, int x, int y, t_info *info);
 
 #endif
