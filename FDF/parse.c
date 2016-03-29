@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/13 13:33:17 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 14:48:10 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/23 14:28:17 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,14 @@ t_fdf	*ft_fdf_parse(char *map, int i, int x, int y)
 	pos = 0;
 	fdf = (t_fdf *)ft_memalloc(sizeof(t_fdf) * ft_count_numbers(map));
 	init_fdf(fdf);
-	while (map[i])
+	while (map[++i])
 	{
 		if (ft_isdigit(map[i]))
 		{
 			fdf[pos].x = x;
 			fdf[pos].y = y;
-			fdf[pos].z = ft_get_next_nbr(&map[i]) * 3;
+			fdf[pos].z = map[i - 1] == '-' ? ft_get_next_nbr(&map[i - 1]) * 3 :
+			ft_get_next_nbr(&map[i]) * 3;
 			fdf[pos].val = fdf[pos].z;
 			pos++;
 			i++;
@@ -64,7 +65,6 @@ t_fdf	*ft_fdf_parse(char *map, int i, int x, int y)
 		if (map[i] == '\n')
 			y++;
 		x = map[i] == '\n' ? 0 : x;
-		i++;
 	}
 	fdf[0].pos = pos;
 	return (fdf);

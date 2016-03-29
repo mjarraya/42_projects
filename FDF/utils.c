@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:27:41 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 17:06:35 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/28 15:47:43 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	ft_fdf_error(int e)
 	if (e == 2)
 	{
 		ft_putendl_fd("close error()", 2);
+		exit(1);
+	}
+	if (e == 3)
+	{
+		ft_putendl_fd("Carte invalide (-100 < altitude < 100)", 2);
 		exit(1);
 	}
 }
@@ -57,28 +62,35 @@ int		ft_count_numbers(char *str)
 	return (cnt);
 }
 
+#include <stdio.h>
+
 int		ft_get_next_nbr(char *str)
 {
 	int		i;
 	char	*num;
 
 	i = 0;
+	if (str[0] == '-')
+		i++;
 	while (ft_isdigit(str[i]) && str[i])
 		i++;
 	if (!(num = ft_memalloc(sizeof(char) * i + 1)))
 		exit(1);
 	i = 0;
+	if (str[0] == '-')
+	{
+		num[i] = '-';
+		i++;
+	}
 	while (ft_isdigit(str[i]) && str[i])
 	{
 		num[i] = str[i];
 		i++;
 	}
 	num[i] = '\0';
-	if (ft_atoi(num) > 100)
-	{
-		ft_putendl_fd("Carte invalide (altitude)", 2);
-		exit(1);
-	}
+	printf("%d\n", ft_atoi(num));
+	if (ft_atoi(num) > 100 || ft_atoi(num) < -100)
+		ft_fdf_error(3);
 	return (ft_atoi(num));
 }
 

@@ -6,11 +6,10 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/22 14:43:49 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 14:49:09 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/23 14:28:25 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mlx.h"
 #include "fdf.h"
 
 int		ft_exit(void *param)
@@ -30,7 +29,7 @@ int		ft_fdf(char *file)
 	info = ft_memalloc(sizeof(t_fdf));
 	map = ft_fdf_read(file, 0);
 	ft_verif_fdf(map);
-	fdf = ft_fdf_parse(map, 0, 0, 0);
+	fdf = ft_fdf_parse(map, -1, 0, 0);
 	fdf = ft_max_x(map, fdf);
 	fdf = ft_3d_to_2d(fdf, -1, 0, 0);
 	info->mlx = mlx_init();

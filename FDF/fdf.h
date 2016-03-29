@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/12 20:14:00 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/22 17:04:07 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/23 13:58:04 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,7 @@ void					ft_fdf_error(int e);
 char					*ft_fdf_read(char *file, int start);
 void					ft_verif_fdf(char *map);
 t_fdf					*ft_fdf_parse(char *map, int i, int x, int y);
+
+t_fdf					*ft_min_z(t_fdf *fdf);
 
 #endif

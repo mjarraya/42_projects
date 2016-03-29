@@ -3,20 +3,20 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mjarraya <marvin@42.fr>                    +#+  +:+       +#+         #
+#    By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2016/03/19 14:07:54 by mjarraya          #+#    #+#              #
-#    Updated: 2016/03/21 14:50:09 by mjarraya         ###   ########.fr        #
+#    Updated: 2016/03/24 16:55:54 by mjarraya         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = fractol
 
-SRC = fractol.c
+SRC = fractol.c colors.c error.c fract1.c fract2.c fract3.c hook.c utils.c
 
 OBJ = $(SRC:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror -g3
+FLAGS = -Wall -Wextra -Werror
 
 FW = -lmlx -framework OpenGL -framework AppKit
 
