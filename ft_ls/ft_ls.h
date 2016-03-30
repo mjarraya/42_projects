@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/29 21:07:45 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/29 23:21:29 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/30 15:55:27 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@
 
 typedef struct		s_optlst
 {
-	int				flag;
+	int				flaga;
+	int				flagl;
+	int				flagr;
+	int				flagt;
+	int				flagur;
 }					t_optlst;
 
 typedef struct		s_files

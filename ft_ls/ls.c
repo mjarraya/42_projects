@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/21 16:17:58 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/30 01:31:43 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/30 16:54:39 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,18 +27,27 @@ int		ft_is_opt(char c)
 	return (0);
 }
 
+void	ft_init_opt(t_optlst *opts)
+{
+	opts->flagur = 0;
+	opts->flagr = 0;
+	opts->flagl = 0;
+	opts->flagt = 0;
+	opts->flaga = 0;
+}
+
 void	ft_set_opt(t_optlst *opts, char c)
 {
 	if (c == 'R')
-		opts->flag |= 1;
+		opts->flagur = 1;
 	if (c == 'l')
-		opts->flag |= 2;
+		opts->flagl = 1;
 	if (c == 'a')
-		opts->flag |= 4;
+		opts->flaga = 1;
 	if (c == 'r')
-		opts->flag |= 8;
+		opts->flagr = 1;
 	if (c == 't')
-		opts->flag |= 16;
+		opts->flagt = 1;
 }
 
 t_files	*ft_create_file(char *name, char *dir, int e)
@@ -49,8 +58,8 @@ t_files	*ft_create_file(char *name, char *dir, int e)
 	tmp = ft_strjoin(dir, "/");
 	tmp = ft_strjoin(tmp, name);
 	file = ft_memalloc(sizeof(t_files));
-	file->name = name;
-	file->dir = dir;
+	file->name = ft_strdup(name);
+	file->dir = ft_strdup(dir);
 	if (e == FICH)
 		if (lstat(tmp, file->stat) == -1)
 			perror(tmp);
@@ -86,13 +95,13 @@ void	ft_parse_files(int i, char **argv, t_files **files)
 {
 	if (!ft_strcmp(argv[i], "--"))
 		i++;
-	while (argv[i])
+	*files = ft_create_file(argv[i], "", ARG);
+	while (argv[i++])
 	{
 		if (ft_strcmp((*files)->name, argv[i]) < 0)
-			ft_push_front(files, ft_create_file(argv[i], NULL, ARG));
+			ft_push_front(files, ft_create_file(argv[i], "", ARG));
 		else
-			ft_push(*files, ft_create_file(argv[i], NULL, ARG));
-		i++;
+			ft_push(*files, ft_create_file(argv[i], "", ARG));
 	}
 }
 
@@ -102,14 +111,16 @@ t_optlst	ft_parse_opts(int argc, char **argv, t_files **files)
 	int			j;
 	t_optlst	opts;
 
+	argc = 0;
 	i = 1;
 	j = 1;
-	opts.flag = 0;
-	while (i < argc && argv[i][0] == '-')
+	ft_init_opt(&opts);
+	while (argv[i] && argv[i][0] == '-')
 	{
+		ft_putendl(argv[i]);
 		if (!ft_strcmp(argv[i], "--"))
 			break ;
-		while (argv[i][j])
+		while (argv[i][j] && argv[i][0] == '-')
 		{
 			if (ft_is_opt(argv[i][j]))
 				ft_set_opt(&opts, argv[i][j]);
