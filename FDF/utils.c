@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:27:41 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/28 15:47:43 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/31 12:58:13 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int		ft_get_next_nbr(char *str)
 		i++;
 	}
 	num[i] = '\0';
-	printf("%d\n", ft_atoi(num));
 	if (ft_atoi(num) > 100 || ft_atoi(num) < -100)
 		ft_fdf_error(3);
 	return (ft_atoi(num));
