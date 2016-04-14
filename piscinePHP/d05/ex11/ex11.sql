@@ -1,0 +1,1 @@
+SELECT UCASE(fiche_personne.nom) AS 'NOM', fiche_personne.prenom, abonnement.prix FROM fiche_personne, abonnement, membre WHERE abonnement.prix > 42 AND membre.id_fiche_perso=fiche_personne.id_perso AND abonnement.id_abo=membre.id_abo ORDER BY nom ASC, prenom ASC; 

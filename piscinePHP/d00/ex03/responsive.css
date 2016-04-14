@@ -1,0 +1,27 @@
+body	{background-color: grey;
+	font-size: 10vw;
+}
+img	{
+	width:50%;
+}
+td{
+border: 1px solid green;
+}
+h3		{
+	text-align: center;
+	font-size: 1vw;
+}
+.num	{text-align: left;}
+.mass	{text-align: right;}
+p		{font-size: 1vw;}
+.empty	{border: none;}
+.bgy	{background-color: yellow;}
+.bgv	{background-color: purple;}
+.bgp	{background-color: pink;}
+.bgc	{background-color: cornflowerblue;}
+.bgs	{background-color: deepskyblue;}
+.bgl	{background-color: lightblue;}
+.bgw	{background-color: mintcream;}
+.bge	{background-color: aquamarine;}
+.bgg	{background-color: darkseagreen;}
+.bgb	{background-color: white;}
