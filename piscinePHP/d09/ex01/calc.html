@@ -1,0 +1,50 @@
+<html>
+	<head>
+		<title>Calc</title>
+	</head>
+	<body>
+			<input id="left" type=text></input>
+			<select id="mid">
+				<option>+</option>
+				<option>-</option>
+				<option>*</option>
+				<option>/</option>
+				<option>%</option>
+			</select>
+			<input id="right" type=text></input>
+			<input type=submit onclick="getNumbers()" value="Try Me!"></input>
+		<script>
+			setInterval(timeAlertFunction, 30000);
+			function timeAlertFunction(){
+				alert("Please, use me...");
+			}
+			function getNumbers(){
+				var left = document.getElementById('left');
+				var right = document.getElementById('right');
+				var button = document.getElementById('mid');
+				if (isNaN(left.value) || isNaN(right.value))
+				{
+					alert ("Error :(");
+					return ;
+				}
+				if (parseInt(left.value) >= 0 && parseInt(right.value) >= 0)	
+				{
+					if ((button.value == "/" || button.value == "%") && parseInt(right.value) == 0)
+					{
+						console.log("It's over 9000!");
+						alert("It's over 9000!");
+					}
+					else
+					{
+						var res = eval(parseInt(left.value) + button.value + parseInt(right.value));
+						console.log(res);
+						alert(res);
+					}
+				}
+				else
+					alert("Error :(");
+			}
+		</script>
+	</body>
+
+</html>

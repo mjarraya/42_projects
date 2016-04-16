@@ -6,7 +6,7 @@
 /*   By: mjarraya <mjarraya@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/03/18 19:27:41 by mjarraya          #+#    #+#             */
-/*   Updated: 2016/03/31 12:58:13 by mjarraya         ###   ########.fr       */
+/*   Updated: 2016/03/23 14:21:15 by mjarraya         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int		ft_count_numbers(char *str)
 	}
 	return (cnt);
 }
-
-#include <stdio.h>
 
 int		ft_get_next_nbr(char *str)
 {
