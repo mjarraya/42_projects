@@ -19,7 +19,7 @@ footer{
 	z-index: 1;
 	width: 560px;
 	height: 420px;
-	background-image: url("http://vignette4.wikia.nocookie.net/robber-penguin-agency/images/6/6e/Small-mario.png");
+	background-image: url("resources/luda.jpeg")
 	background-repeat: no-repeat;
 }
 </style>
