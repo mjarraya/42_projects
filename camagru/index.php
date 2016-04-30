@@ -1,98 +1,14 @@
 <html>
 <head>
-<title>Camagru</title>
-<style>
-header {
-	height:10%;
-	background-color: pink;
-	text-align: center;
-	font-family: tahoma;
-}
-footer{
-	background-color: lightblue;
-	height:8%;
-}
-#cover{
-	position:absolute;
-	margin-left: 50%;
-	margin-right: 50%;
-	z-index: 1;
-	width: 560px;
-	height: 420px;
-	background-image: url("resources/luda.jpeg")
-	background-repeat: no-repeat;
-}
-</style>
+	<link rel='stylesheet' href='css/style.css' type='text/css' media='screen' charset='utf-8'>
 </head>
 <body>
-	<header><h1>Camagru</h1></header>
-	<center><video id="video"></video><br/>
-	<button id="startbutton">Prendre une photo</button><br/>
-	<div id="cover"></div>
-	<canvas id="canvas"></canvas></center>
-	<img id="photo">
-<script>
-(function(){
-
-	var streaming = false,
-		video = document.querySelector('#video'),
-		cover = document.querySelector('#cover'),
-		canvas = document.querySelector('#canvas'),
-		photo = document.querySelector('#photo'),
-		startbutton = document.querySelector('#startbutton'),
-		width = 560,
-		height = 0;
-
-	navigator.getMedia = (navigator.getUserMedia ||
-		navigator.webkitGetUserMedia ||
-		navigator.mozGetUserMedia ||
-		navigator.msGetUserMedia);
-
-	navigator.getMedia(
-		{
-			video: true,
-				audio: false
-		},
-		function(stream){
-			if (navigator.mozGetUserMedia){
-				video.mozSrcObject = stream;
-			}
-			else{
-				var vendorURL = window.URL || window.webkitURL;
-				video.src = vendorURL.createObjectURL(stream);
-			}
-			video.play();
-		},
-			function(err){
-				console.log("An error occured! " + err);
-			}
-	);
-	video.addEventListener('canplay', function(ev){
-		if (!streaming) {
-			height = video.videoHeight / (video.videoWidth/width);
-			video.setAttribute('width', width);
-			video.setAttribute('height', height);
-			canvas.setAttribute('width', width);
-			canvas.setAttribute('height', height);
-			console.log(height);
-			streaming = true;
-		}
-	}, false);
-	function takepicture(){
-		canvas.width = width;
-		canvas.height = height;
-		canvas.getContext('2d').drawImage(video, 0, 0, width, height);
-		var data = canvas.toDataURL('image/png');
-		canvas.setAttribute('src', data);
-	}
-
-	startbutton.addEventListener('click', function(ev){
-		takepicture();
-		ev.preventDefault();
-	}, false);
-})();
-</script>
-</body>
-<footer>
-</footer>
-</html>
+		<title>camagru</title>
+		<form method="post" action="login.php">
+			Identifiant<input type="text" name="login"/><br/>
+			Mot de passe<input type="password" name="passwd"/><br/>
+			<input type="submit" name="submit" value="OK"/><br />
+			<a href="create.html">Creer un compte</a><br/>
+			<a href="modif.html">Changer le mot de passe</a><br/>
+		</form>
+</body></html>
