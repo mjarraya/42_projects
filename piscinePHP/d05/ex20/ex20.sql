@@ -1,1 +1,0 @@
-SELECT film.id_genre, genre.nom AS 'nom genre', distrib.id_distrib, distrib.nom as 'nom distrib', film.titre AS 'titre film' FROM genre, distrib, film WHERE film.id_genre BETWEEN 4 AND 8 AND genre.id_genre = film.id_genre AND film.id_distrib = distrib.id_distrib ;
