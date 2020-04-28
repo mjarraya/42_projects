@@ -1,35 +1,46 @@
 const fs = require("fs");
 
-const { dataset, kms, prices } = require("./dataset");
+const { dataset } = require("./dataset");
+const {
+  normalize,
+  gradientDescentStochastic,
+  gradientDescentBatch,
+} = require("./lib");
 
-let theta0 = 0;
-let theta1 = 0;
-const M = dataset.length;
+const learn = (theta0, theta1, data, batch) => {
+  const { kms, prices, M } = data;
 
-const estimate = (val) => theta0 + theta1 * val;
+  const fn = batch ? gradientDescentBatch : gradientDescentStochastic;
 
-const LEARNING_RATE = 0.01;
-
-const learn = () => {
-  for (let i = 0; i < M; i++) {
-    const km = kms[i];
-    const price = prices[i];
-
-    const guess = estimate(km);
-
-    const error = guess - price;
-
-    theta0 -= error * LEARNING_RATE;
-    theta1 -= error * km * LEARNING_RATE;
-  }
+  ({ yIntercept: theta0, slope: theta1 } = fn(theta1, theta0, {
+    kms,
+    prices,
+    M,
+  }));
+  return { theta0, theta1 };
 };
 
 const main = () => {
-  for (let i = 0; i < 750; i++) {
-    learn();
+  const batch = process.argv.slice(2).includes("--batch");
+
+  const kms = dataset.map((el) => el[0]).map(normalize);
+  const prices = dataset.map((el) => el[1]).map(normalize);
+
+  let theta0 = 0;
+  let theta1 = 0;
+  const M = dataset.length;
+
+  const iterations = batch ? 10000 : 750;
+
+  for (let i = 0; i < iterations; i++) {
+    ({ theta0, theta1 } = learn(theta0, theta1, { kms, prices, M }, batch));
   }
+
   fs.writeFileSync("./model", JSON.stringify([theta0, theta1]));
-  console.log("Model trained!");
+
+  console.log(
+    `Model trained!\ntheta0: ${theta0.toFixed(5)}, theta1: ${theta1.toFixed(5)}`
+  );
 };
 
 main();

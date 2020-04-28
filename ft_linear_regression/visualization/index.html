@@ -7,23 +7,41 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.0.0/p5.min.js"></script>
     <style>
       body {
+        font-family: Arial, Helvetica, sans-serif;
         margin: 0;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
       }
-      p {
+      .panel {
         order: 1;
       }
     </style>
   </head>
   <body>
     <h1>Linear Regression (Gradiant Descent)</h1>
-    <p>theta0: <span></span></p>
-    <p>theta1: <span></span></p>
+    <div class="panel">
+      <p>theta0: <span class="theta0"></span></p>
+      <p>theta1: <span class="theta1"></span></p>
+      <p>
+        <label for="rate">learning rate: </label><span class="rate">0.01</span>
+      </p>
+      <input
+        type="range"
+        min="0.001"
+        max="1"
+        value="0.01"
+        step="0.001"
+        id="rate"
+      />
+      <p>iterations: <span class="counter"></span></p>
+
+      <label for="batch">batch</label
+      ><input type="checkbox" name="batch" id="batch" />
+    </div>
+    <script src="../lib.js"></script>
     <script src="data.js"></script>
-    <script src="normalized_data.js"></script>
     <script src="draw.js"></script>
   </body>
 </html>
